@@ -4,6 +4,8 @@ A **falsification-first reasoning protocol for AI agents working under uncertain
 
 AI agents can solve the problem they believe they have while committing to the wrong problem too early. OpenModel helps separate observations from explanations, test competing hypotheses, update stale models, and check who owns new domain state before building around it.
 
+Use it as a lightweight starting point when working directly with a model without an established agent workflow, or integrate selected checks into an existing workflow where they fill a real gap.
+
 **v0.2.0 · engineering validation release · limited qualitative Pilot evidence**
 
 ## Understand it in 30 seconds
@@ -37,6 +39,32 @@ The steps are combinable functions, not six mandatory headings. Ask what would c
 | [Architecture overfit](examples/architecture-overfit.md) | Another snapshot or status layer will fix consistency. | Prove ownership and recovery semantics; try to produce disagreeing copies. |
 
 These are **fictional teaching examples inspired by anonymized diagnostic patterns**, not production traces, reproduced incidents, or measured outcomes.
+
+## Who is it for? With or without a harness
+
+A **harness** is the workflow around the model: task orchestration, tool access, context or memory, permissions, verification, and recovery. OpenModel supplies a focused reasoning protocol, not that entire infrastructure.
+
+| Your setup | How OpenModel can fit |
+|---|---|
+| Direct model use, with no established workflow | Start with the skill or compact invocation prompt. Use its evidence and stopping rules for uncertain tasks instead of relying on improvised diagnosis in every conversation. |
+| A partial workflow | Add only missing checks, such as explicit falsifiers, current-version checks, or state-ownership questions. Keep your existing tools and conventions. |
+| A mature harness | First check what the workflow already covers. Reuse its evidence, tests, decision records, and authorization rules; activate OpenModel only for an uncovered decision risk. |
+
+Direct model use is a natural entry point, **not an exclusive audience or a proven higher-benefit scenario**. A mature workflow can still leave an initial causal assumption untested. Conversely, if it already handles competing explanations, counterevidence, staleness, ownership, and stop conditions well, adding OpenModel may provide little value or only add overhead. No additional integration is necessary in that case.
+
+**Without an established workflow:** Give the model the task, available evidence, constraints, and a short investigation budget using [INVOKE.md](INVOKE.md). Expect a justified next action, not a full form for every request. The protocol does not create missing tools, persistent memory, isolation, or rollback capabilities; unavailable evidence must remain unknown.
+
+**Inside an existing harness:** Place the relevant check at the decision it protects: uncertain diagnosis before a change, staleness when reusing historical conclusions, or ownership before introducing state. Map the result into your current task or review record. For example, adapt this project instruction:
+
+```text
+Use OpenModel when material uncertainty could change our next action.
+Reuse the evidence and checks already completed by this workflow.
+Add only the missing falsification, staleness, or ownership check.
+Do not introduce duplicate records, repeated verification, or new approval steps.
+When evidence is sufficient, continue implementation and relevant validation.
+```
+
+Keep ordinary CRUD and known fixes on the normal path. Evaluate integration against **your actual existing workflow**, including its costs, rather than against an artificially stripped-down model. The current Pilot does not establish which harness setup benefits most; see the [evaluation method](references/model-impact.md).
 
 ## Start in 10 minutes
 

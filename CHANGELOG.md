@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Clarify direct-model and existing-harness audiences, selective integration, reuse of existing checks, and when no additional protocol is needed. Do not imply comparative effectiveness across harness setups.
+
 ## [0.2.0] — 2026-09-20
 
 **Engineering validation release.** This describes the focus, not established efficacy.
