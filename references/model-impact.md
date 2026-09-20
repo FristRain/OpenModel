@@ -6,6 +6,8 @@ OpenModel changes instructions, not model parameters or domain knowledge. Strong
 
 Keep task, snapshot, tools, permissions, model identifier/settings, and budget identical:
 
+Keep the surrounding harness constant too: orchestration, context or memory, existing evidence checks, verification, and recovery. For a mature workflow, A is that workflow as it actually runs, not a stripped-down model. For direct model use, preserve the same available tools and context across conditions. Otherwise, gains from changing the harness can be mistaken for gains from OpenModel.
+
 - **A — Baseline:** Normal competent prompt with goal and constraints.
 - **B — Compact discipline:** A plus the short prompt in [INVOKE.md](../INVOKE.md).
 - **C — Full skill:** A plus [SKILL.md](../SKILL.md), with references available on demand.
@@ -26,5 +28,7 @@ Provide round-specific artifacts only as each round begins. Keep reviewer rubric
 Predefine quality/cost boundaries. Include null/adverse cases. Headings, hypothesis count, length, and confidence wording are not success metrics.
 
 If A is equally sound and cheaper, use A. If B matches C more cheaply, prefer B. Retain the full protocol where it gives useful repeatable gains.
+
+Assess only the gaps an integration is intended to fill. If the existing workflow already satisfies the protocol's relevant checks, no extra integration is needed. Report harness setup alongside results; the limited Pilot does not establish that bare model use benefits more than a mature workflow, or that every mature workflow benefits at all.
 
 The [limited Pilot](pilot-evidence.md) informs evaluation hypotheses, not controlled efficacy results. [Behavioral cases](../tests/README.md) are regressions, not evidence of benefit across models.
