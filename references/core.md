@@ -1,163 +1,116 @@
 # OpenModel Core v0.1
 
-状态：v0.1 核心范围冻结，公开分享版。目标：**在信息不完整时，降低观察者过早收敛到错误模型的概率。**
+The core epistemic loop is retained in v0.2; engineering extensions live in separate references. Its goal is to reduce premature commitment to a wrong explanation when evidence is incomplete. This is a reasoning protocol, not a trained model or guarantee of correctness.
 
-OpenModel 是用于人机协作的判断协议。“模型”指对问题的解释，不是一个另行训练的 AI 模型。它处理的典型问题是：材料不完整时，最先出现的合理解释成为默认前提，后续信息被不断塞进同一个解释，行动也随之偏离。
+## Three disciplines
 
-保持当前解释被现实修改的能力，避免把对话一致当作正确性的证据。协议不保证结论正确，也不宣称已证明跨领域有效。
+1. **Facts must not be overwritten by explanations.** Preserve original evidence and provenance. Corrections link back to what changed.
+2. **Consequential models must be allowed to fail.** Identify observable evidence that would downgrade, narrow, or reject them.
+3. **When information is insufficient, prefer informative reversible action.** Consider the goal, cost, risk, and existing authorization.
 
-## 使用方式
+The protocol supports the user's task. It does not substitute a research project for an execution request or grant permission for tools, external messages, experiments, or mutations.
 
-六步描述需要覆盖的判断功能，不规定模型内部如何推理，也不要求逐项输出。根据证据与任务选择合并、跳过已满足环节或调整顺序；不能跳过与当前判断直接相关的证据缺口。可以先测量再建模，可以先止损再归因。检查已经满足时直接推进，不为执行协议重复做一遍。
+## Activation and levels
 
-普通任务从 [技能入口](../SKILL.md) 开始，无需默认加载本文件、状态模板和全部示例。
+Start only when material uncertainty can change the action and a check, question, or experiment can help. Explicit invocation still permits Level 0.
 
-## 三条基本纪律
-
-1. **事实不能被解释覆盖。** 保存原始材料与出处；纠错时保留更正关系，不把后来解释写回原始观察。
-2. **重要模型必须允许失败。** 写明什么可观察结果会使它降权、缩小适用范围或被放弃。
-3. **信息不足时，优先选择能产生新信息且可逆的行动。** 同时考虑实际目标、成本和风险；实验仍服从既有授权。
-
-## 何时启动，何时不启动
-
-当至少一个重要不确定性会改变下一步行动，而且可以通过核验、区分性提问或小实验改善判断时启动。典型触发包括：把推测当事实；多个合理解释指向不同动作；新证据冲突；反复补丁；需要在有限信息下做重要决定。用户明确调用时先选强度，必要时说明 Level 0 已足够。
-
-以下情况默认 Level 0，直接完成原任务：
-
-- 简单计算、格式转换、翻译、明确且低风险的修改，已有可直接执行的步骤。
-- 随意交流、纯创作、发散灵感，尚未进入事实判断或决策阶段。
-- 用户主要需要倾听、安慰或表达感受；未经邀请不分析人格或关系动机。
-- 结论已有与当前场景相符的充分证据，没有新的冲突；不为了显得审慎制造伪争议。
-- 各个合理解释都导向同一个低风险行动，进一步辨因不会改变当前选择。
-- 已穷尽当前可得信息，继续推演不会改变行动；保留未知并等待具体新证据。
-- 有紧急、明确的止损动作时先处理紧急事项，稳定后再决定是否分析。
-
-OpenModel 不替换用户目标，不把执行请求自动改成长期研究，也不因启动而获得联网、发消息、修改系统或实验的额外授权。
-
-## Level 0–3：选择最低够用强度
-
-| 强度 | 何时用 | 做到什么就够 | 默认预算与输出 |
-|---|---|---|---|
-| Level 0 — Flow | 上述不启动情形 | 正常执行或回应 | 不展示协议，不建立状态表 |
-| Level 1 — Check | 局部疑点、低成本可逆动作 | 分清事实与解释，检查一个有区分力的反例，给下一步 | 一轮简查；通常几句话 |
-| Level 2 — Explore | 竞争解释会改变行动 | 覆盖六步的相关功能，检查关键偏差，选择有信息价值的验证 | 一轮分析后行动；展示必要状态摘要 |
-| Level 3 — Critical | 高代价或难回退的决策，包括高影响跨系统变更 | 六步＋独立外部证据核验＋系统性证伪＋风险与回退检查 | 确定必要的证据与成本边界；多回合任务维护可交接状态 |
-
-未指定强度时：简单任务为 0；一般疑点从 1 开始；只有重要竞争模型需要区分时升至 2；代价或不可逆性要求更严格证据时升至 3。领域名称本身不决定强度。用户可指定强度与预算，不用机械增加假设数量填满流程。
-
-Level 3 没有外部资料或工具时，标记“外部核验未完成”，给出所需证据与当前可行选择，不能声称已完成核验。外部证据可以是原始文件、测量、日志、当事人记录或领域来源，不等于必须搜索网页。
-
-## 六步协议
-
-**Observe → Separate → Branch → Attack → Update → Act**
-
-Level 2–3 按任务覆盖相关功能；Level 1 压缩应用。无需固定假设数量、输出标题或操作顺序。只输出结论所需的观察、证据、判断变化和行动，不要求披露内部思维过程。
-
-### 1. Observe｜观察
-
-先保存现象、出处、时间和适用条件。标记直接测量、用户自述、转述或模型生成；缺失材料写“未获取”。“页面变慢”的反馈不自动等于已测得时延，更不等于已定位数据库问题。
-
-文字保留关键原话；图像注明局部与上下文；音视频注明时间段；数据注明单位、样本和测量条件。OCR、转写、摘要均为衍生材料，可能有误。多个模态来自同一事件时，不冒充多个独立证据。
-
-### 2. Separate｜分层
-
-把五种内容分开，不能互相冒充：
-
-| 层次 | 问题 | 例子 |
+| Level | Situation | Sufficient response |
 |---|---|---|
-| Observation | 实际记录了什么？ | 本次演示出现两次响应超时 |
-| Experience | 当事人体验到了什么？ | 演示者报告紧张 |
-| Interpretation | 观察者怎样理解现象？ | 演示者认为系统不可靠 |
-| Hypothesis | 猜测的机制是什么？ | 网络波动导致超时 |
-| Decision | 在目标和约束下准备怎么办？ | 先核对请求与网络记录 |
+| 0 — Flow | Simple execution, calculation, translation, ordinary CRUD, creation, listening, established evidence, or alternatives implying the same low-risk action | Do the task without a protocol table. |
+| 1 — Check | Local uncertainty | Briefly separate observation/explanation, check a relevant counterexample, act. |
+| 2 — Explore | Competing explanations imply different actions | Cover the relevant loop functions and obtain discriminating evidence. |
+| 3 — Critical | High cost or hard-to-reverse decision | Independently verify material claims, falsifiers, failure/recovery, and rollback. |
 
-主观体验值得承认，但不能证明外部动机。用户和 AI 的归因都按假设处理。不同层之间的推断需要证据，不预设每往下一层必然更不确定。价值偏好与选择也不伪装成事实结论。
+Complexity or domain name alone does not set the level. No hypothesis quotas. Reuse completed checks and reliable applicable evidence; do not manufacture doubt. Urgent authorized containment may precede diagnosis.
 
-### 3. Branch｜分叉
+If Level 3 evidence is inaccessible, state the gap and feasible work; do not claim verification. External evidence can be a primary document, measurement, source inspection, or log, not necessarily a web search.
 
-保留当前最好解释、会改变行动的合理竞争解释，以及任何模型都尚未解释的 Unknown。通常只需少量有区分力的候选，不凑数，不让边缘猜测与强证据模型等权。
+## Observe → Separate → Branch → Attack → Update → Act
 
-每个重要假设注明解释范围、支持/反对证据，以及与竞争者不同的预测。仅换措辞、对所有结果预测相同的候选应合并。可以暂时没有最好解释。
+These are judgment functions, not prescribed private reasoning or mandatory headings. Combine, reorder, and skip already satisfied checks; do not hide a material gap.
 
-### 4. Attack｜攻击
+### Observe
 
-优先检查当前最好解释最脆弱、最影响行动的前提：**如果它错了，什么可观察结果会让我改变判断？** 对重要竞争解释使用相同证据标准。
+Preserve source, time, scope, conditions, and type: direct measurement, report, summary, or generated material. "The page feels slow" is a report, not a measured latency or database diagnosis. Attribute unverified external claims and make conclusions that depend on them conditional; a newly found explanation is not independently corroborated merely because it fits. Record units and measurement boundaries. Screenshots, OCR, transcripts, and summaries can lose context. Multiple representations of the same event are not independent observations.
 
-区分“与假设相容”和“相比其他假设更支持它”。在实验前写出不同结果将如何更新，避免事后改标准。没有可行反证条件的解释标为不可检验叙事，不据此做强因果判断。攻击解释，不攻击人或否认感受。
+### Separate
 
-### 5. Update｜更新
+| Layer | Meaning |
+|---|---|
+| Observation | What was recorded or measured? |
+| Experience | What did someone report feeling or experiencing? |
+| Interpretation | How was the observation understood? |
+| Hypothesis | What proposed mechanism could explain it? |
+| Decision | What action follows given goals and constraints? |
 
-新证据有区分力地支持则升权，冲突则降权；出现新变量、关键反例或现有解释无法覆盖的重要现象时再分叉；信息不足则保持未知。降权可以是缩小范围，不必从一个绝对结论跳到另一个绝对结论。
+A feeling deserves acknowledgment without proving another person's motives. Neither the user's nor the agent's preferred cause is automatically Known. Preferences and value choices are not causal facts.
 
-更新前检查证据质量、来源独立性和测试是否真正测到了目标。重复转述、模型改写、用户赞同都不算新增独立证据。记录“什么变化了、依据是什么、什么仍不知道”，保留被否定假设及理由，防止遗忘后重新提出。
+### Branch
 
-置信度默认用低／中／高并说明理由和适用范围；没有校准依据不虚构概率。对解释的低置信度，不妨碍对低风险下一步有较高把握。
+Retain the leading explanation, plausible rivals that change action, and material unknowns. Do not give remote possibilities equal weight to strong evidence. Merge hypotheses with identical predictions. A leading model can remain unresolved.
 
-### 6. Act｜行动
+For consequential hypotheses, identify scope, supporting and opposing evidence, and distinct predictions. Do not add candidates just to fill a table.
 
-回到用户要完成的事。存在重要信息缺口时，选择能区分假设、成本可承受且可回退的动作；信息足够时直接执行有效方案，不把“小”当成目标。需要多个互不依赖的检查时可以组合进行，不强制每轮只能做一件事。对实质影响决策的测试，写清观察指标、更新标准、停止与回退条件。
+### Attack
 
-实验尚未执行时，明确写“计划／待执行”。执行后再记录真实结果，不能把测试设计或工具成功退出当作现实效果。
+Ask: **If this explanation is wrong, what observable result would change the decision?** Apply comparable evidence standards to rivals. Mere compatibility is weaker than evidence favoring one model over another.
 
-若信息已经足够当前决定，直接行动；不必等到终极原因被证明。若没有可逆选项，明确剩余不确定性、延迟成本和不可逆后果，在已有授权范围内选择；关键授权缺失时停在可审阅方案。
+Before a meaningful test, define how different results will update the model. An explanation with no feasible falsifier is an untestable narrative for this task, not a basis for strong causal claims. Attack explanations, not people.
 
-## Observer Audit｜观察者审计
+### Update
 
-Level 2–3 在输入质量可能影响判断时检查相关项；Level 1 只检查必要的一项：
+Upgrade with discriminating support; downgrade or narrow with conflict. Branch again only for important new evidence or unexplained observations. Lack of information remains unknown.
 
-- **注意与缺失：** 为什么看见这些样本？成功、正常、沉默或相反案例是否被漏掉？
-- **采样与表达：** 材料是谁筛选的？时间窗、截图裁剪、测量方式、转述或摘要丢掉了什么？
-- **状态与利益：** 情绪、疲惫、压力、身份和利益是否可能改变注意或表述？没有证据时只能列为可能。
-- **AI 与共同偏差：** AI 是否被用户措辞、先前回答或最近偏爱的理论锚定？是否在为自己之前的解释辩护？
+Check measurement validity, scope, and source independence first. Repetition, paraphrase, or agreement does not add independent evidence. Preserve superseded hypotheses and reasons so they are not reintroduced without cause.
 
-存在具体偏差线索时，记录其影响及补救，例如换时间窗、查原始材料、看正常样本或请不同视角复核。不能因为某人可能有偏差就否定其全部证据，也不能假装自己已拥有不存在的视角。
+Use low/medium/high confidence with reasons and scope rather than invented probabilities. Low confidence in a cause can coexist with strong justification for a low-risk next action.
 
-## Overfit Detector｜过拟合检测
+### Act
 
-出现以下迹象时检查是否失去反证能力：
+Return to the requested outcome. With a material gap, choose affordable discriminating evidence or an authorized reversible probe. With sufficient evidence, execute the effective solution, not endlessly smaller steps. Independent useful checks may be combined.
 
-- 一个理论跨场景解释一切，却不声明边界。
-- 相反的新证据也总被当作支持；反例只靠临时增加例外化解。
-- 置信度不断上升，独立证据没有增加。
-- 对话越来越一致、顺畅，但没有新预测、外部反馈或意外；这只是检查信号，一致本身不是错误。
-- 用“所有问题都源于这一点”等全称结论代替局部判断。
+For tests that affect decisions, specify observations, update criteria, budget, stop, and rollback. Label plans as unexecuted; tool success alone is not proof of real-world benefit.
 
-发现具体问题时指出哪条证据或哪次判断变化触发；需结构化交接时可标记 `OVERFIT WARNING`。暂停扩大归纳，寻找一个能使当前模型失败的反例；优先补充独立数据或换观察位置。无法获得时降低置信度、保留 Unknown，并按退出条件停止。不为制造分歧而反对，也不把反对本身当作质量证明。
+If no reversible option exists, state uncertainty, delay cost, and consequences. Proceed only within existing authorization; missing authorization is handled by the host's rules, not a new protocol-specific approval gate.
 
-## Analysis Loop｜退出条件
+## Observer Audit
 
-**当继续分析预计产生的信息价值低于分析成本时，停止这一轮分析，直接进入当前可行行动。** 信息价值指是否可能改变选择、降低实质风险或避免返工，无需伪精确打分。
+Check only biases relevant to the decision:
 
-每轮结束检查；满足任一项就收束，不再自动开启下一轮：
+- Missing normal/successful/contradictory samples, selection, and time windows.
+- Measurement coverage, filtering, crop, summary, and provenance.
+- Anchoring to the user's description, an earlier answer, or the agent's favorite theory.
+- Concrete context affecting reliability, without inventing motives or personality judgments.
 
-1. 已足以支持当前动作，剩余不确定性不改变选择。
-2. 最有价值的下一步是获取现实反馈，继续讨论无法替代它。
-3. 本轮没有新增证据、区分性预测或行动变化，只在重复和换名。
-4. 约定的时间、成本、证据预算或决策期限已到。
-5. 无法获取关键证据，继续分析的收益低于成本。
+Possible bias does not invalidate all evidence. State its likely effect and a practical remedy; do not claim an independent viewpoint that was never obtained.
 
-退出不等于确定真相。收束为“当前判断＋关键未知＋行动或等待条件＋何种新证据触发重开”。可选择执行低风险动作、采取稳健方案、在明确条件下等待或请求确实必要的信息；预算用尽不授权危险行动。
+## Overfit Detector
 
-停止分析不等于停止任务：继续完成已授权的执行与必要验证。出现影响选择的新证据、环境变化、关键反例或目标变化时重开；用户要求重开但没有新材料时，说明限制并压缩到必要核查。不能把遵循完整流程变成拖延执行的理由。
+Check when a model explains every outcome without boundaries, absorbs contradictions as support, accumulates ad hoc exceptions, or gains confidence without independent evidence. Agreement alone proves neither truth nor overfit.
 
-## 动态状态与交付
+Identify the specific contradiction, narrow the claim, and seek a falsifier. If none is accessible, reduce confidence and stop under the exit rules. Contrarianism is not a success criterion.
 
-使用以下固定字段保持跨回合可继承性：
+## Analysis Loop exit
 
-`Observed / Known / Experienced / Hypotheses / Evidence For / Evidence Against / Unknown / Observer Bias / Current Best Model / Confidence / Reversible Next Test`
+Stop when expected decision value of another pass is lower than its cost. No numerical score is required. Exit when:
 
-维护和交接时读取 [动态状态规范与空白模板](state.md)。该文件定义出处、假设关联和更新方式；不要把所有字段机械展示给每次对话。Level 1 只需短结论；Level 2 展示影响下一步的字段；Level 3 的完整状态在多回合更新或交接时使用；字段无关时可标不适用，不强制每次输出整表。没依据的字段写“未知／未提供／不适用”，不补写用户心理或实验结果。
+1. Evidence supports the next action and remaining uncertainty does not change it.
+2. New information requires execution rather than discussion.
+3. No new evidence, prediction, or action change emerged.
+4. The agreed time, cost, evidence budget, or deadline has arrived.
+5. Key evidence is inaccessible and further inference is unhelpful.
 
-默认交付：当前最好判断与置信依据、最关键的反证或未知、可执行的下一步及必要的停止／重开条件。继续完成用户已授权任务，不能仅交付一份分析表就结束本可执行的工作。
+Exit with current judgment, material unknowns, action/waiting condition, and reopening evidence. A budget does not prove truth or authorize unsafe action.
 
-## 跨领域适配原则
+**Stopping analysis is not stopping the task.** Continue authorized implementation and relevant validation. Reopen for material new evidence, context, risk, or goals, not repetition.
 
-Core 保持不变，领域只提供五类内容：观察单位、证据质量标准、竞争机制、可行测试、风险与回退约束。文本、图像、音视频、表格、日志均可作为材料；输入形式不同不增加新理论层。
+## State and domain adaptation
 
-软件可用时延与日志，商业可用实际行为和付费记录，人际可用明确表达与持续行为，研究可用原始数据与重复检验。具体阈值由任务决定，不能跨领域搬用。熟悉领域的类比只是待检验候选，不能冒充陌生领域知识；资料不足时先查定义、单位、测量过程和原始来源。
+The [working-state fields](state.md) remain:
+`Observed / Known / Experienced / Hypotheses / Evidence For / Evidence Against / Unknown / Observer Bias / Current Best Model / Confidence / Reversible Next Test`.
 
-情绪、人际和自我探索不做人格定型、读心或诊断；领域专业判断仍需相应证据与资质，协议不替代它们。小规模、便宜的动作也未必可逆，例如发送消息后的社会影响不能真正撤回。
+Use only needed fields, especially on handoff; no mandatory full form. Missing facts remain unknown. Report decisions and supporting evidence, not private chain-of-thought.
 
-v0.1 不创建 Dev／Life／Business 子框架，不增加核心字段或理论模块。后续只有真实使用失败支持时才另议版本变更；若 OpenModel 增加负担却不改善决策，应降级或停用。
+Domains supply observation units, evidence standards, plausible mechanisms, feasible tests, and risk/rollback constraints. Do not transplant thresholds or assume a familiar analogy supplies missing expertise. In unfamiliar domains check definitions, units, measurement, and primary evidence. No mind-reading or invented diagnoses.
 
-检验迁移、更新与退出行为时，读取 [跨领域测试样例](test-cases.md)。五个模拟样例不构成通用有效性的实证。
+The five [original cross-domain cases](test-cases.md) test transfer, updates, and exits; they do not establish universal benefit. Engineering references in [SKILL.md](../SKILL.md) add targeted guidance without replacing this core.

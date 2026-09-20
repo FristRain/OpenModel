@@ -1,18 +1,24 @@
-# OpenModel v0.1｜极简调用模板
+# Invoke OpenModel
 
-已加载 [SKILL.md](SKILL.md) 后，复制这一句即可；未加载时将核心文件一并提供。
+With file access:
 
 ```text
-用 OpenModel v0.1 处理【问题】。目标：【要完成什么】；材料：【原始输入或出处】；约束／预算：【限制】。按最低够用强度给出判断、关键未知和下一步；证据足够就执行，不必逐项展示流程。
+Read openmodel/SKILL.md and use the lowest sufficient level for this task.
+Goal: [desired outcome]
+Materials: [current source, measurements, or other evidence]
+Constraints and budget: [permitted actions and investigation limit]
+Task: [request]
+Act when evidence supports the next step; do not print the full protocol by default.
 ```
 
-需要固定强度时，在末尾加 `Level 2` 或 `Level 3`；不填则由 Core 选择。无需为了调用先填完整状态表。
+Use the actual folder location. Directory-skill hosts load `openmodel` using their supported mechanism. In ordinary chat, attach/paste [SKILL.md](SKILL.md) and needed references; links are insufficient without file access.
 
-## 无附件调用
-
-以下是三条纪律的压缩用法，未加载完整 Core 时也能使用：
+Without attachments (compressed discipline, not the full skill):
 
 ```text
-处理这个问题时，请区分观察与解释；若关键不确定性会改变行动，检查什么证据能推翻当前判断；信息不足时优先选择能验证判断且可回退的动作，信息足够则直接执行。无需为简单问题展开分析或填表。
-问题：【问题、材料与目标】
+Separate observations from explanations. When uncertainty changes the action,
+identify evidence that could disprove the leading explanation, check it if available,
+and update. Prefer reversible informative action when evidence is missing.
+Use current evidence, reuse established ownership, and stop analysis when it no
+longer changes the decision. Complete the authorized task.
 ```

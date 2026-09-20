@@ -1,92 +1,112 @@
-# OpenModel v0.1
+# OpenModel — Keep the problem model open until the evidence closes it.
 
-**帮助人和 AI 在证据不足时，避免过早认定一个解释，并用现实反馈修正判断。**
+A **falsification-first reasoning protocol for AI agents working under uncertainty**.
 
-OpenModel 是一套可复用的 Markdown 判断协议，可作为 AI Skill、项目说明或对话提示使用。“Model”指对问题的解释；OpenModel 本身不是另行训练的大语言模型。
+AI agents can solve the problem they believe they have while committing to the wrong problem too early. OpenModel helps separate observations from explanations, test competing hypotheses, update stale models, and check who owns new domain state before building around it.
 
-## 它主要解决什么问题
+**v0.2 release candidate · engineering validation release · limited qualitative Pilot evidence**
 
-一个常见的错误过程是：
+## Understand it in 30 seconds
 
-> 看到有限现象 → 选中第一个合理解释 → 把解释当事实 → 只收集支持它的信息 → 围绕错误前提行动。
+> **Symptom:** "The database pool is saturated."
+>
+> **Premature commitment:** "Increase the pool size."
+>
+> **OpenModel:** Saturation is an observation. Insufficient capacity is one hypothesis. Slow queries, long transactions, or connection-held work can produce the same symptom. What measurement would distinguish them and disprove the preferred explanation?
 
-例如，页面变慢就扩容数据库，销售下降就认定需求消失，合作方回复变少就判断对方不愿合作。问题往往发生在“还没确认原因，就开始按某个原因行动”这一步。
+| Failure | What OpenModel changes |
+|---|---|
+| Premature commitment | Keep a plausible explanation as a hypothesis until relevant evidence supports action. |
+| Symptom patching | Test the causal link before tuning the resource that happens to be busy. |
+| Stale models | Check whether a historical explanation still applies to the current revision and deployed path. |
+| Duplicated domain state | Identify authority, projections, operational state, and historical evidence before adding another mutable copy. |
 
-OpenModel 重点处理三件事：
+OpenModel does **not replace profiling, tracing, tests, static analysis, or architecture tools**. Those produce evidence and validate changes; this protocol helps decide what to investigate and what the evidence supports. It is Markdown guidance, not a trained model, enforcement engine, or source of missing facts.
 
-- **防止证据和解释混在一起。** 明确看到了什么、哪些只是猜测、哪些仍不知道。
-- **防止解释失去被推翻的可能。** 保留能改变行动的竞争解释，用新证据更新。
-- **防止分析取代行动。** 当继续讨论无助于选择时，做验证、执行方案或明确等待条件。
-
-它尤其适合含糊归因、反复失败、证据冲突与多轮判断更新。它不提供缺失的事实，不保证找出真相，也不要求每个简单问题都经过一套流程。
-
-## 快速使用
-
-1. 将 [SKILL.md](SKILL.md) 作为当前任务说明提供给 AI。
-2. 说明问题、目标、现有材料与约束；不需要预先填表。
-3. 让模型按最低够用强度处理。取得新证据后再更新；信息足够就执行。
-
-```text
-用 OpenModel 分析：产品试用人数上升，但付费人数没有增加。
-目标是决定下一步优先改产品、定价还是获客方式。
-当前只有注册和付费记录；先使用这些材料，提出最有区分力的下一步。
-```
-
-也可以使用 [极简调用模板](INVOKE.md)。只有短提示的环境可以直接用模板中“无附件调用”的版本。
-
-## 工作方式
+## Understand the value in 3 minutes
 
 **Observe → Separate → Branch → Attack → Update → Act**
 
-六步对应观察、分层、分叉、攻击、更新和行动。模型可以合并或调整顺序，不必写出六个标题。
+The steps are combinable functions, not six mandatory headings. Ask what would change the decision; obtain that evidence; act when the remaining uncertainty no longer changes the next step.
 
-Observer Audit 检查输入与观察过程是否有偏；Overfit Detector 检查当前解释是否开始“无论什么结果都能解释”。三条纪律是保留事实、允许模型失败、在信息不足时优先选择有信息价值且可逆的行动。
+| Example | Tempting conclusion | Discriminating check |
+|---|---|---|
+| [Database saturation](examples/database-saturation.md) | A full pool must be too small. | Compare acquisition wait, execution, fetch, and connection hold time on the same requests. |
+| [Worker saturation](examples/worker-saturation.md) | Busy workers require more workers. | Separate queue wait from service time and downstream contention. |
+| [Stale model](examples/stale-model.md) | A previously synchronous operation still blocks requests. | Check current paths, deployment identity, and request traces. |
+| [Architecture overfit](examples/architecture-overfit.md) | Another snapshot or status layer will fix consistency. | Prove ownership and recovery semantics; try to produce disagreeing copies. |
 
-| 强度 | 适用情况 |
+These are **fictional teaching examples inspired by anonymized diagnostic patterns**, not production traces, reproduced incidents, or measured outcomes.
+
+## Start in 10 minutes
+
+1. Download this candidate branch or clone the repository:
+   ```sh
+   git clone --branch release/v0.2-rc https://github.com/FristRain/OpenModel.git openmodel
+   ```
+2. Give your agent access to [SKILL.md](SKILL.md) and `references/`. For a directory-skill host, install the `openmodel/` folder through its documented mechanism; discovery paths and syntax depend on the host.
+3. For any agent that can read files, paste:
+   ```text
+   Read openmodel/SKILL.md and apply it to this task.
+   Symptom: Searches slow down as result size increases.
+   Goal: Identify the next justified change.
+   Materials: Current source, representative traces, and a local test environment.
+   Constraints: Read-only production access; one diagnostic pass before a local experiment.
+   Use the lowest sufficient level. Execute authorized work when evidence is sufficient.
+   ```
+   In chat without file access, attach/paste `SKILL.md` and only the references it needs. Relative links alone do not load their content.
+4. Expect a concise decision record: observations versus explanations, the leading hypothesis and its failure condition, missing evidence, and an action with a stopping condition. A full table is optional.
+5. Check the boundary: ask for a simple title change. The agent should do it directly. Then try the two-round [behavioral cases](tests/README.md).
+
+For Codex, Claude Code, and other skill-capable agents, keep the complete folder and use the host's current installation documentation. This repository provides a portable prompt/file route, not host-specific adapters or a claim of tested compatibility with every host. See [INVOKE.md](INVOKE.md).
+
+## Use only as much protocol as needed
+
+- **Level 0 — Flow:** Ordinary CRUD with an established owner, formatting, clear local fixes, creation, or listening: do the task.
+- **Level 1 — Check:** One material uncertainty: a short evidence check.
+- **Level 2 — Explore:** Competing explanations change the action: compare predictions and run a discriminating check.
+- **Level 3 — Critical:** A costly or hard-to-reverse decision: independently verify material claims and failure/recovery boundaries.
+
+Performance incidents, intermittent failures, repeated unsuccessful fixes, stale assumptions, and architecture/state changes are useful triggers **when uncertainty affects the decision**. Complexity, the word "database," or adding an ordinary field is not sufficient.
+
+Stop when evidence supports action, more discussion adds no information, the agreed budget expires, or the next information requires execution. A time limit does not justify an unsafe guess. Reuse existing evidence and workflows. Stop analyzing, then continue authorized work or state the specific missing input.
+
+## Protocol and engineering references
+
+The [core epistemic loop](references/core.md) remains general. Load these only when relevant:
+
+| Reference | When to read |
 |---|---|
-| Level 0 | 明确执行、创作、日常聊天、倾听；直接处理 |
-| Level 1 | 局部疑点；做一次简短核查 |
-| Level 2 | 竞争解释影响行动；展开必要的证据比较与测试 |
-| Level 3 | 错误代价高且难回退；增加独立核验与风险检查 |
+| [Hypothesis gate](references/hypothesis-gate.md) | An uncertain cause is about to become an implementation premise. |
+| [Model staleness](references/model-staleness.md) | Old explanations conflict with current code or evidence. |
+| [Model duplication](references/model-duplication.md) | Several records appear to describe the same fact. |
+| [State ownership](references/state-ownership.md) | Introducing or repurposing durable state, statuses, snapshots, or caches. |
+| [Decision cost](references/decision-cost.md) | Investigation is growing or delay matters. |
+| [Working state](references/state.md) | Evidence-preserving updates or handoff. |
 
-一旦信息足以支持行动，或下一条有价值的信息只能来自实践，就结束当前分析。退出分析后继续完成任务。
+**No New State Without Ownership Proof** means a proportionate explanation of fact, authority, writers, lifecycle, identity, and recovery. A normal field on an established entity can satisfy it in one sentence. It does not require a new approval process or ban legitimate projections and historical copies.
 
-## 对 GPT-6 这样的强模型有帮助吗
+## What the evidence supports
 
-**判断：有条件地可能改善任务表现；强制套用完整流程也可能降低表现。目前没有本项目的对照实验支持“使用后必然更强”。**
+v0.1 established the **core epistemic loop**. v0.2 is an **engineering validation release**: lessons and falsifiable evaluation criteria, not a declaration that validation is complete.
 
-OpenModel 不改变模型参数或增加知识。它能影响的是注意重点、证据记录、判断更新和停止条件。收益应体现在更少的错误归因、更好的现实验证和任务完成；如果只是多写几段分析，就不算有效。
+A limited real-engineering Pilot reported stronger fact/inference separation, clearer falsification conditions, detection of stale assumptions, and scrutiny of duplicated state. It also reported analysis overhead; the baseline already found several of the same candidate causes.
 
-因此默认入口保持简短；完整规范、状态与测试按需读取；不强制假设数量、流程展示或重复核查；不把全文作为所有任务的固定前置步骤。GPT-6 的官方依据、对本规范的具体审查与对照测试方法见 [模型能力影响评估](references/model-impact.md)。
+The evidence is a maintainer-provided conversation record from one project and one main model family. The first comparison explicitly used same-session behavioral ablation and self-evaluation, not independent blinded runs. Later diagnostic comparisons do not establish stronger controls. Private artifacts are not published, and this release has not independently reproduced the findings.
 
-## 文件结构
+**No claim of universal effectiveness, statistically significant uplift, measured production speedup, independently verified root causes, or cross-agent superiority is made.** See [Pilot provenance and limits](references/pilot-evidence.md) and the [evaluation method](references/model-impact.md).
 
-| 文件 | 面向谁／何时使用 |
-|---|---|
-| [SKILL.md](SKILL.md) | AI 的轻量默认入口 |
-| [references/core.md](references/core.md) | OpenModel Core v0.1 的完整规范 |
-| [references/state.md](references/state.md) | 多轮更新与交接的动态状态结构 |
-| [references/test-cases.md](references/test-cases.md) | 五个虚构跨领域测试及不启动检查 |
-| [references/model-impact.md](references/model-impact.md) | 面向读者的收益、限制与 GPT-6 适配评估 |
-| [INVOKE.md](INVOKE.md) | 极简调用模板 |
+## Validate and contribute
 
-## 在不同环境中使用
+Python 3.10+; standard library only:
 
-支持目录式技能的环境：保留整个 `openmodel/` 目录，使用该环境提供的技能加载机制。具体发现路径与调用语法由宿主决定。
-
-普通聊天环境：提供 `SKILL.md` 的内容或附件。需要详细规范时再附 `references/core.md`；模型不能访问相对链接时，应提供对应文件内容。
-
-项目或系统级说明：放入短入口，让模型仅在出现相关问题时读取技能。无需把完整规范、案例与评估文档全部塞入常驻提示。示例入口：
-
-```text
-当重要竞争解释会改变行动，或新反证与当前判断冲突时，
-读取 openmodel/SKILL.md。按最低够用强度使用，明确任务直接执行。
+```sh
+python scripts/validate.py
+python -m unittest discover -s tests -v
 ```
 
-跨模型复用的是问题定义和证据纪律，不保证不同宿主具有相同工具或相同效果。
+These check packaging, local links, case schemas, and obvious public-data hazards. They do **not** measure agent reasoning. The original five [cross-domain cases](references/test-cases.md) are retained; engineering cases and manual evaluation are in [tests/README.md](tests/README.md).
 
-## 版本与验证状态
+Contribute [A/B failure cases, counterexamples, and other agent/domain results](CONTRIBUTING.md), including costs and regressions. See [CHANGELOG.md](CHANGELOG.md) and [candidate notes](RELEASE_NOTES.md).
 
-Core v0.1 的范围冻结：六步、两个守门器、三条纪律、Level 0–3、退出条件、动态状态和领域适配。当前为公开分享版；案例独立虚构，不需要个人经历、私人对话或特定机器配置。
-
-文件格式与链接检查不能证明模型效果。测试样例用于验证行为，尚不构成真实场景或跨模型增益的实证。若实际使用增加负担却没有改善结果，应降级、停用或用对照测试检查原因。
+A license has not yet been selected by the maintainer. Public visibility alone does not grant an open-source license.

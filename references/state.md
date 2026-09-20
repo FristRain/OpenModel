@@ -1,84 +1,44 @@
-# OpenModel v0.1｜动态状态规范
+# Working state — Core v0.1, retained in v0.2
 
-本文件是 [Core](core.md) 的状态与交接附件，不新增推理步骤。状态记录证据和结论，不要求记录完整思维过程。
+Use for multi-turn updates and handoff, not as a required form. Record evidence and decisions, not private reasoning.
 
-## 字段定义
+| Field | Content and boundary |
+|---|---|
+| Observed | Original measurement/report; ID, source, time, scope, units, conditions. A report is not automatically verified. |
+| Known | Verified facts or explicit constraints, with evidence IDs and applicability. User explanations are not facts by default. |
+| Experienced | Explicitly reported experience; do not invent motives or feelings. |
+| Hypotheses | Mechanism, scope, distinct prediction, falsifier, status: candidate/leading/downgraded/unresolved. |
+| Evidence For | Linked observation and hypothesis; why discriminating, quality and independence. Compatibility alone is labeled. |
+| Evidence Against | Linked contradiction, scope and quality. No support is not automatically disproof. |
+| Unknown | Missing facts, whether they change action, and possible source. |
+| Observer Bias | Specific concern, evidence, likely effect, and remedy; no personality claims. |
+| Current Best Model | Leading or unresolved explanation, scope, and latest update reason. |
+| Confidence | Claim-specific low/medium/high with reasons/limits; avoid uncalibrated percentages. |
+| Reversible Next Test | Action, target distinction, predictions, observations, budget, stop/rollback, authorization, execution status and actual result. |
 
-| 字段 | 记录内容 | 边界 |
-|---|---|---|
-| Observed | 原始现象、原话或测量；记录 ID、出处、时间、条件、材料类型 | “用户报告 X”与“已核实 X”不同；保留原始记录 |
-| Known | 当前已核验的约束和事实，引用观察／证据 ID，并注明范围 | 用户目标和授权可作为明确约束；用户归因不自动进入此栏 |
-| Experienced | 当事人明确报告的感受与体验 | 未提供就写未提供；不代写心理状态，不由此推断他人动机 |
-| Hypotheses | H1…：解释、范围、不同预测、降权条件、当前状态 | 状态可为候选／领先／降权／未决；Interpretation 标为“初始解读”放在相应条目中，机制未明时不强行补全 |
-| Evidence For | E1…：支持哪个 H、来自哪个观察、为何有区分力、质量与独立性 | 仅相容时明确注明；不重复累计同源证据 |
-| Evidence Against | 反对哪个 H、冲突在哪里、来源与质量 | “尚无支持”不自动等于反证；没有反证不等于模型正确 |
-| Unknown | 未获取、无法确定或现有模型解释不了的内容 | 标出哪些会改变行动；未知不是隐含肯定或否定 |
-| Observer Bias | 具体可能偏差、依据、对判断的影响及补救 | 没证据就标“待检查”；不将偏差猜测写成人格结论 |
-| Current Best Model | 当前领先 H 及适用范围；可写“未分出”或并列 | 是工作解释，不是最终真相；注明最近更新依据 |
-| Confidence | 低／中／高、对应的命题、证据理由和主要限制 | 可分别写解释信心与行动把握；不默认百分比 |
-| Reversible Next Test | Decision 与测试计划：动作、观察指标、不同结果如何更新、预算、停止和回退条件、执行状态 | 计划、已执行、结果待确认要分清；无合适测试时写原因和等待条件 |
+## Update discipline
 
-## 更新规则
+Preserve original evidence IDs. Append corrections with reason and linkage. Reusing evidence across hypotheses does not make it independent.
 
-- 保留原始 ID 与出处。来源可以是用户本轮陈述、文件路径与页码、URL、日志时间段或测量记录。没有出处时明确标注，不补造。
-- 新证据追加新记录，修正错误时注明“更正哪条、为什么”；Hypotheses 与 Current Best Model 可以更新，原始材料不被重写。
-- 同一证据可以出现在不同假设的支持／反对关系中，仍沿用同一证据 ID；来源重复或模态重复不增加独立性。
-- 每次更新简记“旧判断 → 新判断；新增依据；行动是否变化”。只在证据、目标或行动变化时更新，不逐句记流水账。
-- 对概率性假设，单个例外通常意味着降权或检查范围；是否足以否定取决于原先预测、样本与测量质量。
-- 状态太长时压缩摘要并保留原始出处、关键反证、被放弃假设的理由和重开条件。原材料不可得时标记限制，不声称可回溯。
-- 跨回合可以在对话中维护；需跨会话时输出此状态供保存或交接。没有保存工具或未实际写入文件时，不声称已经持久保存。
+Record only meaningful changes: old → new judgment, new evidence, changed action. Retain disproven models and reopening conditions during compaction. If raw sources are unavailable, disclose that.
 
-## 可复制模板
+Working state may remain in conversation. Do not claim persistence unless it was actually saved. Unknown, unavailable, and not applicable are valid values.
 
-以下方括号为使用时填写的槽位。Level 2–3 按需使用；空字段填写“未知／未提供／不适用”。
+## Optional compact handoff
 
-```markdown
-# OpenModel 状态｜Core v0.1
-问题／目标：[要解释什么；要完成什么]
-Level：[0–3]｜范围／时点：[适用对象与更新时间]
-分析预算／决策期限：[本轮上限]
-
-Observed:
-- O1：[原话／现象；出处；时间；条件；直接测量／自述／转述等]
-
-Known:
-- [已核验事实或明确约束；引用 O/E；适用范围]
-
-Experienced:
-- [当事人明确表达的体验；出处]
-
-Hypotheses:
-- H1：[初始解读／机制；范围；区分性预测；降权条件；状态]
-- [仅在有重要竞争解释时增加 H2…]
-
-Evidence For:
-- E1：[支持 H?；来自 O?；区分力；质量／独立性]
-
-Evidence Against:
-- [反对 H?；引用 E/O；冲突；质量／独立性]
-
-Unknown:
-- [未知内容；是否改变当前行动；可获取方式]
-
-Observer Bias:
-- [可能偏差；依据；具体补救]
-
-Current Best Model:
-- [H?／未分出；范围；最近更新依据]
-
-Confidence:
-- 解释：[低／中／高；理由与限制]
-- 行动：[如有必要，另记下一步把握]
-
-Reversible Next Test:
-- Decision／动作：[当前选择；执行状态：计划／已执行／结果待确认]
-- 区分目标：[H? 与 H?]
-- 观察：[指标、来源、条件]
-- 预先约定：[结果 A 怎样更新；结果 B 怎样更新；不明确则保持什么未知]
-- 预算／停止：[时间、成本或样本上限]
-- 回退／权限：[如何撤销影响；是否在既有授权内]
-- 结果：[尚未执行／真实结果与出处]
-
-本轮更新：[旧 → 新；依据；行动变化]
-退出／重开：[为何现在收束；什么新证据会重开]
+```text
+Goal / decision:
+Level / scope / revision / time:
+Budget:
+Observed / Known: [sources and boundaries]
+Hypotheses: [leading, material rival, distinct predictions and falsifiers]
+Evidence For / Against: [linked records, independence]
+Unknown: [which gaps change the action]
+Current Best Model / Confidence: [scope and reasons]
+Reversible Next Test: [action; observations; update criteria; budget; rollback]
+Execution status: [planned / executed / result unverified, with actual evidence]
+Update: [old → new; why; action change]
+Exit / reopen: [why stop now; what would change the decision]
 ```
+
+Use Experienced and Observer Bias only when relevant. For new domain state, link the existing [ownership contract](state-ownership.md) rather than creating a second representation.
