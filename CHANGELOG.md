@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Clarify direct-model and existing-harness audiences, selective integration, reuse of existing checks, and when no additional protocol is needed. Do not imply comparative effectiveness across harness setups.
+- Define audience by unresolved decision risk, distinguish runtime harnesses from project workflows, and document primary-source support and Pilot limits. Describe selective integration without implying comparative effectiveness across harness setups.
 
 ## [0.2.0] — 2026-09-20
 

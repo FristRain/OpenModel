@@ -31,4 +31,12 @@ If A is equally sound and cheaper, use A. If B matches C more cheaply, prefer B.
 
 Assess only the gaps an integration is intended to fill. If the existing workflow already satisfies the protocol's relevant checks, no extra integration is needed. Report harness setup alongside results; the limited Pilot does not establish that bare model use benefits more than a mature workflow, or that every mature workflow benefits at all.
 
+## Testing an audience claim
+
+To test whether OpenModel helps more in minimally structured use than in an established workflow, use four conditions: minimal workflow without/with OpenModel, and established workflow without/with OpenModel. Define the actual instructions, tools, evidence access, and verification in each setup; avoid treating "complete harness" as a measurable binary property without that definition.
+
+Within each pair, hold model, task, tools, context, and budget constant. Use unseen tasks, isolated repeated trials, and independent outcome assessment. Compare the change from adding OpenModel within each setup, including completion and cost, before comparing those changes across setups. Comparing only a bare baseline against a full workflow plus OpenModel confounds the two interventions.
+
+This is a proposed study, not an executed result. The [audience evidence review](audience-evidence.md) separates definitions, reported experience, design inferences, and untested effectiveness claims.
+
 The [limited Pilot](pilot-evidence.md) informs evaluation hypotheses, not controlled efficacy results. [Behavioral cases](../tests/README.md) are regressions, not evidence of benefit across models.
