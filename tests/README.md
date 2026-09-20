@@ -2,7 +2,7 @@
 
 There are two different kinds of verification. Do not report one as the other.
 
-See the [candidate validation record](VALIDATION.md) for what was actually executed and its limits.
+See the [validation record](VALIDATION.md) for what was actually executed and its limits.
 
 ## Automated artifact checks
 

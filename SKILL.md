@@ -2,7 +2,7 @@
 name: openmodel
 description: Test problem explanations before committing to changes when material uncertainty, conflicting evidence, recurring failures, stale assumptions, or unclear state ownership changes the next action. Use when explicitly requested; do not expand ordinary CRUD, known local fixes, or simple execution into an investigation.
 metadata:
-  version: "0.2.0-rc.1"
+  version: "0.2.0"
 ---
 
 # OpenModel

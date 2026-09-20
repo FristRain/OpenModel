@@ -4,7 +4,7 @@ A **falsification-first reasoning protocol for AI agents working under uncertain
 
 AI agents can solve the problem they believe they have while committing to the wrong problem too early. OpenModel helps separate observations from explanations, test competing hypotheses, update stale models, and check who owns new domain state before building around it.
 
-**v0.2 release candidate · engineering validation release · limited qualitative Pilot evidence**
+**v0.2.0 · engineering validation release · limited qualitative Pilot evidence**
 
 ## Understand it in 30 seconds
 
@@ -40,9 +40,9 @@ These are **fictional teaching examples inspired by anonymized diagnostic patter
 
 ## Start in 10 minutes
 
-1. Download this candidate branch or clone the repository:
+1. Download the [v0.2.0 skill package](https://github.com/FristRain/OpenModel/releases/download/v0.2.0/openmodel-v0.2.0.zip) and extract its `openmodel/` folder, or clone the release:
    ```sh
-   git clone --branch release/v0.2-rc https://github.com/FristRain/OpenModel.git openmodel
+   git clone --branch v0.2.0 https://github.com/FristRain/OpenModel.git openmodel
    ```
 2. Give your agent access to [SKILL.md](SKILL.md) and `references/`. For a directory-skill host, install the `openmodel/` folder through its documented mechanism; discovery paths and syntax depend on the host.
 3. For any agent that can read files, paste:
@@ -107,7 +107,7 @@ python -m unittest discover -s tests -v
 
 These check packaging, local links, case schemas, and obvious public-data hazards. They do **not** measure agent reasoning. The original five [cross-domain cases](references/test-cases.md) are retained; engineering cases and manual evaluation are in [tests/README.md](tests/README.md).
 
-Contribute [A/B failure cases, counterexamples, and other agent/domain results](CONTRIBUTING.md), including costs and regressions. See [CHANGELOG.md](CHANGELOG.md) and [candidate notes](RELEASE_NOTES.md).
+Contribute [A/B failure cases, counterexamples, and other agent/domain results](CONTRIBUTING.md), including costs and regressions. See [CHANGELOG.md](CHANGELOG.md) and [release notes](RELEASE_NOTES.md).
 
 ## Make it your own
 

@@ -1,6 +1,6 @@
-# v0.2 candidate validation record
+# v0.2.0 validation record
 
-Date: 2026-09-20. Scope: repository artifacts and qualitative decision smoke tests; **not a controlled A/B efficacy study**.
+Date: 2026-09-20. Scope: repository artifacts and qualitative decision smoke tests; **not a controlled A/B efficacy study**. The behavioral results below were obtained during candidate review. Finalization as v0.2.0 updates version metadata, release documentation, and packaging, without changing protocol behavior.
 
 License follow-up: the maintainer selected unrestricted reuse and workflow customization. The added UNLICENSE matches the official text byte-for-byte after normalizing line endings and surrounding whitespace. Package/link/privacy checks and all 29 unit tests passed again; no protocol behavior changed, so behavioral smoke tests were not repeated for this documentation-only update.
 

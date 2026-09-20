@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.2.0-rc.1] — Unreleased
+## [0.2.0] — 2026-09-20
 
-**Engineering validation release candidate.** This describes the focus, not established efficacy.
+**Engineering validation release.** This describes the focus, not established efficacy.
 
 - Reframe as a falsification-first reasoning protocol for AI agents working under uncertainty.
 - Preserve Observe → Separate → Branch → Attack → Update → Act, three disciplines, Level 0–3, observer audit, and analysis exit.
@@ -12,7 +12,7 @@
 - Add machine-readable engineering cases, artifact/link/privacy checks, regression tests, and CI.
 - Protect ordinary CRUD and known fixes from excessive activation.
 - Replace model-specific design claims with portable evaluation and explicit Pilot limits.
-- Add contribution and candidate-review guidance.
+- Add contribution, release, and validation guidance.
 - Adopt the Unlicense for original project materials, allowing public or private workflow customization, redistribution, and commercial use without an attribution or source-sharing requirement.
 
 Evidence is limited to reported real-engineering Pilot experience from one private project and one main model family, including same-session ablation and self-evaluation. No universal benefit, statistical uplift, cross-agent superiority, or production speedup is claimed.
