@@ -6,6 +6,8 @@ The v0.2 design draws on a maintainer-provided conversation record describing di
 
 The first comparison explicitly described **same-session behavioral ablation**: the same assistant produced and evaluated alternatives. It was not two isolated, blinded runs. Later reports are qualitative diagnostic comparisons; the available record does not establish independent replication or stronger controls.
 
+The reported setting already included a structured engineering workflow and verification tools. It was not a comparison between bare model use and a mature harness, so it cannot establish a preferred audience or relative benefit across those setups.
+
 This release treats that record as reported experience. It does not independently reproduce private source inspections, traces, findings, or production outcomes. Raw private artifacts are excluded. Merely replacing names would not adequately anonymize a private architecture, so the public examples are newly written fictional scenarios retaining only general reasoning patterns.
 
 ## Lessons used

@@ -4,7 +4,7 @@ A **falsification-first reasoning protocol for AI agents working under uncertain
 
 AI agents can solve the problem they believe they have while committing to the wrong problem too early. OpenModel helps separate observations from explanations, test competing hypotheses, update stale models, and check who owns new domain state before building around it.
 
-Use it as a lightweight starting point when working directly with a model without an established agent workflow, or integrate selected checks into an existing workflow where they fill a real gap.
+Use it for tasks where an untested explanation could change the next action and existing instructions or checks do not adequately address that risk. It can be supplied directly as guidance or integrated selectively into an agent workflow; harness maturity alone does not determine its fit.
 
 **v0.2.0 · engineering validation release · limited qualitative Pilot evidence**
 
@@ -42,15 +42,15 @@ These are **fictional teaching examples inspired by anonymized diagnostic patter
 
 ## Who is it for? With or without a harness
 
-A **harness** is the workflow around the model: task orchestration, tool access, context or memory, permissions, verification, and recovery. OpenModel supplies a focused reasoning protocol, not that entire infrastructure.
+A **runtime harness** processes model inputs, coordinates tool calls, and returns results. A **project workflow** adds task-specific practices such as review, evidence collection, tests, and recovery. They overlap, but are not interchangeable: using an agent product can already involve a harness even if you have not designed a project workflow. OpenModel supplies task guidance that can sit within that system; it does not implement the runtime. See the [definition and evidence review](references/audience-evidence.md).
 
-| Your setup | How OpenModel can fit |
+| Decision gap | How OpenModel can fit |
 |---|---|
-| Direct model use, with no established workflow | Start with the skill or compact invocation prompt. Use its evidence and stopping rules for uncertain tasks instead of relying on improvised diagnosis in every conversation. |
-| A partial workflow | Add only missing checks, such as explicit falsifiers, current-version checks, or state-ownership questions. Keep your existing tools and conventions. |
-| A mature harness | First check what the workflow already covers. Reuse its evidence, tests, decision records, and authorization rules; activate OpenModel only for an uncovered decision risk. |
+| An uncertain diagnosis with no explicit evidence discipline | Try the compact prompt or relevant skill checks, using only the evidence actually available. This can occur in direct model use or an agent workflow. |
+| A structured workflow verifies changes but leaves a causal premise or state owner untested | Add the missing falsification, staleness, or ownership check at that decision boundary. Reuse existing tools and records. |
+| The relevant uncertainty is already resolved or the existing workflow covers it | Continue normal execution. Extra OpenModel procedure is unnecessary unless a new gap appears. |
 
-Direct model use is a natural entry point, **not an exclusive audience or a proven higher-benefit scenario**. A mature workflow can still leave an initial causal assumption untested. Conversely, if it already handles competing explanations, counterevidence, staleness, ownership, and stop conditions well, adding OpenModel may provide little value or only add overhead. No additional integration is necessary in that case.
+**We have not established that OpenModel is primarily for bare models or more effective without a harness.** Its limited Pilot was reported in an already structured engineering setting, not a controlled comparison of workflow maturity. That does not establish effectiveness in mature harnesses either. Selective integration is a design option to evaluate, not a demonstrated gain for every setup.
 
 **Without an established workflow:** Give the model the task, available evidence, constraints, and a short investigation budget using [INVOKE.md](INVOKE.md). Expect a justified next action, not a full form for every request. The protocol does not create missing tools, persistent memory, isolation, or rollback capabilities; unavailable evidence must remain unknown.
 
