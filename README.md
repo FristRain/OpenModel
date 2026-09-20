@@ -109,4 +109,10 @@ These check packaging, local links, case schemas, and obvious public-data hazard
 
 Contribute [A/B failure cases, counterexamples, and other agent/domain results](CONTRIBUTING.md), including costs and regressions. See [CHANGELOG.md](CHANGELOG.md) and [candidate notes](RELEASE_NOTES.md).
 
-A license has not yet been selected by the maintainer. Public visibility alone does not grant an open-source license.
+## Make it your own
+
+OpenModel's original protocol, documentation, examples, and scripts are available under the [Unlicense](UNLICENSE). Everyone is welcome to use, copy, modify, and redistribute them, including for commercial purposes.
+
+Fork the repository and build a workflow that fits your agent, team, or domain. Adapt the triggers, evidence sources, references, and output style; keep only what improves your decisions. You may keep your customizations private or share them under your own terms. Attribution and publishing your changes are welcome, but are not required by the Unlicense.
+
+The project is provided without warranty. See the [full terms](UNLICENSE) and the [official Unlicense explanation](https://unlicense.org/).

@@ -13,6 +13,7 @@
 - Protect ordinary CRUD and known fixes from excessive activation.
 - Replace model-specific design claims with portable evaluation and explicit Pilot limits.
 - Add contribution and candidate-review guidance.
+- Adopt the Unlicense for original project materials, allowing public or private workflow customization, redistribution, and commercial use without an attribution or source-sharing requirement.
 
 Evidence is limited to reported real-engineering Pilot experience from one private project and one main model family, including same-session ablation and self-evaluation. No universal benefit, statistical uplift, cross-agent superiority, or production speedup is claimed.
 

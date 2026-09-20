@@ -2,6 +2,8 @@
 
 Date: 2026-09-20. Scope: repository artifacts and qualitative decision smoke tests; **not a controlled A/B efficacy study**.
 
+License follow-up: the maintainer selected unrestricted reuse and workflow customization. The added UNLICENSE matches the official text byte-for-byte after normalizing line endings and surrounding whitespace. Package/link/privacy checks and all 29 unit tests passed again; no protocol behavior changed, so behavioral smoke tests were not repeated for this documentation-only update.
+
 ## Automated validation
 
 - 29 standard-library unit tests passed locally.

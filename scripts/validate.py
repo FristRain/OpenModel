@@ -9,7 +9,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = (
-    "README.md", "SKILL.md", "INVOKE.md", "CHANGELOG.md", "CONTRIBUTING.md",
+    "README.md", "SKILL.md", "INVOKE.md", "CHANGELOG.md", "CONTRIBUTING.md", "UNLICENSE",
     "RELEASE_NOTES.md", "references/core.md", "references/state.md",
     "references/test-cases.md", "references/model-impact.md",
     "references/hypothesis-gate.md", "references/model-staleness.md",

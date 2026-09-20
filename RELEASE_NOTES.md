@@ -8,7 +8,9 @@ Review first-impression clarity, the file-based quick start, ordinary-CRUD exclu
 
 The source is a [limited qualitative Pilot](references/pilot-evidence.md), not independent efficacy validation. Examples are fictional general patterns. Automated checks validate artifacts only; behavioral results must identify actual runs and limitations.
 
-Before a formal release, the maintainer should choose a license, review wording/privacy, and decide what external evidence is sufficient. The baseline had no license; this candidate does not invent one.
+At the maintainer's request for unrestricted reuse and custom workflows, this candidate adopts the [Unlicense](UNLICENSE) for original project materials. Users may keep adaptations private or redistribute them, including commercially. The supplied baseline archive had no license file; the candidate now makes the intended terms explicit.
+
+Before a formal release, review wording/privacy and decide what external evidence is sufficient.
 
 Merging, tagging, and publishing a Release remain separate maintainer actions.
 

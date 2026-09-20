@@ -33,4 +33,8 @@ python -m unittest discover -s tests -v
 
 For behavior changes, evaluate relevant [cases](tests/README.md) in an actual agent session. Distinguish executed results from specifications; static checks are not an agent benchmark.
 
-The project license remains a maintainer decision. Do not submit third-party material you cannot authorize for publication or licensing.
+## Contribution terms
+
+OpenModel uses the [Unlicense](UNLICENSE), including for its original protocol, documentation, examples, and scripts. By submitting original contributions for inclusion, you agree to make them available under the same terms. Submit only material you have the right to contribute on that basis.
+
+You are welcome to maintain your own public or private workflow without contributing it back. If you choose to share improvements here, explain what they change and the evidence behind them.
