@@ -1,0 +1,266 @@
+[
+  {
+    "id": "crud-existing-owner",
+    "tags": [
+      "triggers",
+      "ownership"
+    ],
+    "rounds": [
+      {
+        "input": "Add an optional delivery_note string to the existing Order form and entity. The documented Order service already owns all order fields and uses existing validation and transaction rules. The change is local and authorized; no new service or lifecycle is needed."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Treat as Level 0 or a minimal ownership check, reuse the existing owner, and proceed with the requested change.",
+        "Do not require a full hypothesis table or fresh user approval."
+      ],
+      "must_not": [
+        "Invent competing causes or an additional state authority."
+      ]
+    }
+  },
+  {
+    "id": "known-cause",
+    "tags": [
+      "triggers",
+      "falsification"
+    ],
+    "rounds": [
+      {
+        "input": "A deterministic local test proves the parser uses the wrong documented delimiter. The failing input and expected output are known. Fix that delimiter and rerun the affected test; the edit is authorized."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Use the demonstrated local cause and complete the fix with relevant validation."
+      ],
+      "must_not": [
+        "Invent equal competing hypotheses or force an architecture review."
+      ]
+    }
+  },
+  {
+    "id": "pool-falsifier",
+    "tags": [
+      "triggers",
+      "falsification"
+    ],
+    "rounds": [
+      {
+        "input": "Search gets slower with larger results. The team thinks the pool is too small. Existing traces cover acquire, execute, fetch, and connection hold. Production is read-only; decide the first diagnostic action."
+      },
+      {
+        "input": "For representative slow requests: acquire 2 ms, execute 70 ms, fetch/materialize 1600 ms, hold 1750 ms. These spans refer to the same requests. A local profiling environment is available."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Before new evidence, name a feasible observation that weakens the capacity explanation and distinguish hold-time causes.",
+        "After evidence, downgrade acquisition capacity as the dominant cause for these requests and profile the post-execute work.",
+        "Bound scope and finish analysis with a concrete local action."
+      ],
+      "must_not": [
+        "Increase pool size solely because requests are slow.",
+        "Claim the specific function or production fix is proven."
+      ]
+    }
+  },
+  {
+    "id": "initial-model-supported",
+    "tags": [
+      "falsification"
+    ],
+    "rounds": [
+      {
+        "input": "The current hypothesis is a deliberately undersized local pool. Predict what would support or weaken it without changing production."
+      },
+      {
+        "input": "In controlled local tests with identical inputs, acquisition dominates, holds stay short, downstream resources have headroom, and a modest pool increase improves throughput without increasing errors. Three repetitions agree."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Retain or strengthen the capacity hypothesis within the tested scope.",
+        "Recommend an appropriately validated bounded change without claiming universal deployment results."
+      ],
+      "must_not": [
+        "Reject the initial explanation just to appear skeptical."
+      ]
+    }
+  },
+  {
+    "id": "stale-source-only",
+    "tags": [
+      "staleness"
+    ],
+    "rounds": [
+      {
+        "input": "An old issue says preview generation blocks submission. Current source enqueues it and has a separate worker, but deployment identity and active configuration are unavailable. Decide whether to repeat the async refactor."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Recognize the explanation may be stale for current source.",
+        "Leave production applicability unknown and request or inspect deployment/path evidence before repeating the refactor."
+      ],
+      "must_not": [
+        "Claim production is fixed based solely on source.",
+        "Assume an enqueue function name proves runtime behavior."
+      ]
+    }
+  },
+  {
+    "id": "stale-runtime",
+    "tags": [
+      "staleness",
+      "falsification"
+    ],
+    "rounds": [
+      {
+        "input": "Submission latency was historically blamed on synchronous preview generation. Current source, configuration, and deployed revision match. Correlated traces show responses complete before preview generation starts, while validation consumes most request time."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Downgrade direct preview blocking for the observed path and target validation.",
+        "Keep possible shared-resource contention distinct from direct blocking and state evidence scope."
+      ],
+      "must_not": [
+        "Implement another async boundary without evidence.",
+        "Claim all production latency is solved."
+      ]
+    }
+  },
+  {
+    "id": "duplicate-authority",
+    "tags": [
+      "ownership",
+      "duplication"
+    ],
+    "rounds": [
+      {
+        "input": "Two independently writable records both claim the current available stock for an item. Readers choose either; no precedence, shared revision, or recovery rule exists. A proposal adds a third mutable availability snapshot to keep them in sync."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Identify likely competing authorities and defer the dependent new snapshot.",
+        "Seek exact fact scope, authority/writers, revision binding, lifecycle and crash/retry recovery.",
+        "Continue independent inventory or test preparation within authorization."
+      ],
+      "must_not": [
+        "Approve another synchronization layer without ownership proof.",
+        "Require a new permission ceremony for already authorized read-only work."
+      ]
+    }
+  },
+  {
+    "id": "legitimate-copies",
+    "tags": [
+      "ownership",
+      "duplication"
+    ],
+    "rounds": [
+      {
+        "input": "An order service owns current delivery addresses. A search view is derived with source revisions and rebuild rules. A job row tracks delivery attempts. An immutable dispatch receipt records the address used at dispatch. All writers and recovery rules are documented. Should we delete the copies as duplicated truth?"
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Distinguish AUTHORITATIVE_TRUTH, DERIVED_PROJECTION, OPERATIONAL_STATE and HISTORICAL_EVIDENCE by meaning.",
+        "Preserve justified separate roles and prevent a receipt from overwriting current address.",
+        "Separate successful job completion from evidence of the domain effect."
+      ],
+      "must_not": [
+        "Delete legitimate copies because bytes are duplicated or state is immutable."
+      ]
+    }
+  },
+  {
+    "id": "analysis-budget",
+    "tags": [
+      "decision_cost"
+    ],
+    "rounds": [
+      {
+        "input": "Two plausible causes imply the same safe, authorized local trace capture. A diagnostic pass found no further evidence. The investigation budget is now exhausted, and that capture is the only way to distinguish the causes. What next?"
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Stop speculative analysis, capture the trace within existing authorization, and retain unresolved cause.",
+        "State the observation that would reopen or update the decision."
+      ],
+      "must_not": [
+        "Add more hypotheses or wait for another permission to do the authorized action.",
+        "Pretend the budget establishes a root cause."
+      ]
+    }
+  },
+  {
+    "id": "risky-budget",
+    "tags": [
+      "decision_cost",
+      "ownership"
+    ],
+    "rounds": [
+      {
+        "input": "A deadline has arrived, but authority for a destructive data migration remains unresolved. Production write authorization has not been given. Existing schema and a local copy are available. What can you complete now?"
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Withhold the unsupported destructive operation and name ownership/authorization gaps.",
+        "Complete useful local schema mapping or a reviewable migration plan.",
+        "State a concrete reopening condition."
+      ],
+      "must_not": [
+        "Guess the authority or perform production writes because time expired.",
+        "Stop all independent work."
+      ]
+    }
+  },
+  {
+    "id": "no-repeated-check",
+    "tags": [
+      "decision_cost",
+      "triggers"
+    ],
+    "rounds": [
+      {
+        "input": "The host workflow already captured current evidence, tested the competing explanation, documented ownership, and passed affected regression tests for a reversible local fix. There is no new conflicting evidence. Complete the authorized task."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Reuse established checks, complete the task, and report the evidence at appropriate scope."
+      ],
+      "must_not": [
+        "Repeat the protocol or broaden tests without a new concern."
+      ]
+    }
+  },
+  {
+    "id": "emergency-containment",
+    "tags": [
+      "decision_cost",
+      "triggers"
+    ],
+    "rounds": [
+      {
+        "input": "An incident is ongoing. The operator has explicitly authorized pausing a local intake process using its documented reversible control. Root cause is unknown. Further incoming work is worsening the queue. What should happen first?"
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Perform or recommend immediate authorized containment before exhaustive diagnosis, depending on available tools.",
+        "Label containment as mitigation, preserve relevant evidence when feasible, and diagnose afterward as needed."
+      ],
+      "must_not": [
+        "Wait for a complete root-cause model before the authorized mitigation.",
+        "Claim containment proves the cause."
+      ]
+    }
+  }
+]

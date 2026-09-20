@@ -1,72 +1,30 @@
-# OpenModel 对模型能力的影响
+# Evaluating OpenModel's net effect
 
-评估对象：OpenModel Core v0.1 公开分享版。官方资料核对日期：2026-09-20。GPT-6 部分具体对应 GPT-6 Astra；不把该判断直接外推到所有模型。
+OpenModel changes instructions, not model parameters or domain knowledge. Strong agents may already perform useful checks; extra procedure can make them slower or less effective. Evaluate correctness, completed work, and decision cost together.
 
-## 结论
+## Compare conditions
 
-**OpenModel 有可能提高含糊判断任务的可靠性，也可能因流程过重而降低效率与完成质量。对 GPT-6 Astra，建议采用简短入口、条件触发与按需展开，不建议对所有任务强制执行完整协议。**
+Keep task, snapshot, tools, permissions, model identifier/settings, and budget identical:
 
-这是基于官方说明与规则内容的设计评估，尚未完成有／无 OpenModel 的受控对照实验。公开表述应使用“用于减少过早归因”“旨在改善证据更新”，不能声称“已证明提升 GPT-6 推理能力”。
+- **A — Baseline:** Normal competent prompt with goal and constraints.
+- **B — Compact discipline:** A plus the short prompt in [INVOKE.md](../INVOKE.md).
+- **C — Full skill:** A plus [SKILL.md](../SKILL.md), with references available on demand.
 
-## 官方资料能支持到哪里
+Do not weaken the baseline or feed it the intended answer. Use isolated sessions, repeated runs, and tasks not used to write rules. Record actual model/version and configuration.
 
-OpenAI 在针对 GPT-6 Astra 的技能文章中指出，过细的操作配方可能妨碍表现，并建议明确触发边界、按需加载材料。该文章讨论一般技能设计，没有测试 OpenModel。[Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)
+Provide round-specific artifacts only as each round begins. Keep reviewer rubrics/reference answers away from the evaluated agent. Randomize/anonymize results for an independent reviewer where feasible; disclose missing blinding.
 
-GPT-6 Astra 的模型指南指出，它更敏感于技能中的指令，也可能因澄清、验证或不明确的边界而增加停顿。这里需要审查规则是否妨碍完成任务。[GPT-6 Astra 模型指南](https://developers.openai.com/api/docs/guides/latest-model)
-
-较早的推理模型通用指南建议直接明确地描述目标，指出“逐步思考”等提示不一定改善表现。这是通用背景，不是 GPT-6 或 OpenModel 的效果实验。[Reasoning best practices](https://developers.openai.com/api/docs/guides/reasoning-best-practices)
-
-## “能力提升”需要分清什么
-
-Skill 在推理时提供指令与可访问材料，不更新模型参数。这个文件集也没有给模型新增领域数据库。能改变的是模型在特定任务中如何使用已有能力：优先检查什么、保留哪些证据、何时更新和行动。
-
-因此需要分别看三个结果：答案是否更正确，任务是否更完整地完成，以及为此付出了多少时间、交互和资源。更详细的回答、更低的自信或更多假设，都不能单独证明能力提升。
-
-强模型可能已经自发完成其中很多检查。这时重复强调流程的边际收益可能很小，而阅读和执行规则仍有成本。另一方面，模型有推理能力，不等于每次都拿到了无偏的输入与足够的现实反馈；针对这些缺口的短规则仍可能有用。
-
-## 对各项规则的具体判断
-
-以下为设计推断，须用实际任务验证。
-
-| 规则 | 可能的收益 | 可能的限制 | 本版处理 |
-|---|---|---|---|
-| 观察与解释分开 | 减少把用户猜测或摘要当事实 | 所有常识都要求重新举证，导致拖延 | 重点检查影响选择的前提 |
-| 保留竞争解释 | 减少被第一个合理原因锁定 | 制造低质量备选，对强证据也保持伪平衡 | 不设数量配额；没有重要竞争者就不凑 |
-| 主动检查反证 | 更容易发现结论不适用的范围 | 把“批判”变成无理由唱反调 | 双方使用同样证据标准，反对也要有依据 |
-| Observer Audit | 发现测量、筛选和转述的问题 | 揣测个人动机，离开原任务 | 只检查与当前判断有关的具体偏差 |
-| 动态状态 | 多轮工作可追溯，不容易遗忘反例 | 每次填表消耗上下文，掩盖真正交付物 | 普通任务短答，更新与交接才展开 |
-| 可逆验证 | 用反馈替代空转，降低试错成本 | 过度追求“小动作”，迟迟不完成目标 | 信息足够后直接执行有效方案 |
-| 六步协议 | 提供证据纪律与共同协作语言 | 固定顺序压缩模型选择方法的空间 | 按功能使用，允许合并与调整顺序 |
-| 退出条件 | 减少反复讨论和无效核查 | 被误解为做完一轮就停止整个任务 | 明确只退出分析，继续执行与必要验证 |
-
-## 对初稿的修订
-
-初稿虽然已有分级机制，仍将较长规范直接放在默认入口，带有“六步一轮”和完整状态输出等容易被机械执行的要求。对一个重视指令的模型，这些措辞存在过度约束风险；这不等于已经观察到性能下降。
-
-公开版把默认入口与详细规范分开，保留原有核心范围；改为按相关功能检查，不限定内部推理顺序；明确不需要每次填表或逐项展示；允许已有流程满足要求后直接推进；把测试案例和本评估文档留给评审时读取。
-
-这些改动减少的是不必要的过程限制。保留的约束集中在不把推测冒充事实、根据反证更新、完成当前任务。这些约束是否产生净收益，仍由结果检验。
-
-## 怎样验证净收益
-
-使用同一 GPT-6 Astra 版本、相同推理设置、工具权限、材料和任务预算，比较三个条件：
-
-- **A：正常任务提示。** 明确目标、输入、约束与完成标准，不添加 OpenModel。
-- **B：A＋简短纪律。** 采用 [无附件调用](../INVOKE.md) 的压缩提示。
-- **C：A＋完整技能机制。** 加载 [SKILL.md](../SKILL.md)，参考文件按需可读，不预先塞入所有案例。
-
-评测至少覆盖：有误导初始归因的任务、新证据推翻前提的多轮任务、起初判断本来正确的任务、简单执行、创作与确实缺资料的任务。增加未参与写规则的新案例，避免只验证示例记忆。
-
-各条件在隔离会话中重复运行，记录实际模型标识、设置与输出。随机排列匿名结果；评审者不应知道对应条件。优先用可验证结果、实际修复或独立材料评分，避免只让生成答案的模型自评。
-
-| 指标 | 观察内容 |
+| Outcome | Evaluate |
 |---|---|
-| 正确性与任务完成 | 是否解决原问题；有没有输出无法支持的因果结论 |
-| 证据更新 | 收到反证后是否调整；初始判断正确时是否无端放弃 |
-| 行动质量 | 验证是否真能区分假设；有没有只写计划不执行 |
-| 成本与负担 | 耗时、输入输出量、工具调用、无必要提问和重复检查 |
-| 误触发 | 对简单执行、创作或倾听是否增加无关分析 |
+| Correctness and completion | Original task completed within authorization and evidence? |
+| Falsification and updating | Does counterevidence change conclusions? Is a correct initial model retained? |
+| Action quality | Do checks distinguish hypotheses? Executed or merely proposed? |
+| State semantics | Are authority, projection, progress, and historical evidence distinct? |
+| Cost | Time, tokens if available, tool calls, unnecessary questions/rechecks. |
+| Trigger precision | Do ordinary CRUD and known fixes avoid needless investigation? |
 
-事先确定可接受的质量与成本边界，分别报告各类任务的结果及波动，不能只挑有提升的案例。若 B 与 C 的质量相当而 B 更省，选择 B；若 A 已同样可靠且成本更低，不使用该技能；只有 C 提供可重复的额外收益时才保留更详细流程。
+Predefine quality/cost boundaries. Include null/adverse cases. Headings, hypothesis count, length, and confidence wording are not success metrics.
 
-本文件提供的是验证方法，没有执行结果或提升百分比。不能用规则看起来合理，代替对模型表现的检验。
+If A is equally sound and cheaper, use A. If B matches C more cheaply, prefer B. Retain the full protocol where it gives useful repeatable gains.
+
+The [limited Pilot](pilot-evidence.md) informs evaluation hypotheses, not controlled efficacy results. [Behavioral cases](../tests/README.md) are regressions, not evidence of benefit across models.

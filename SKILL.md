@@ -1,51 +1,63 @@
 ---
 name: openmodel
-description: 检查信息不完整时的过早归因。在重要竞争解释会改变行动、反证与当前判断冲突，或用户明确要求 OpenModel 时使用；不默认介入简单执行、纯创作或情绪陪伴。
+description: Test problem explanations before committing to changes when material uncertainty, conflicting evidence, recurring failures, stale assumptions, or unclear state ownership changes the next action. Use when explicitly requested; do not expand ordinary CRUD, known local fixes, or simple execution into an investigation.
 metadata:
-  version: "0.1"
+  version: "0.2.0"
 ---
 
 # OpenModel
 
-用于开发、研究与决策的轻量判断协议。目标是**在信息不完整时，降低观察者过早收敛到错误模型的概率**。“模型”指当前问题的解释。
+A falsification-first reasoning protocol for AI agents working under uncertainty.
+Keep the problem model open until the evidence closes it.
 
-典型问题：先猜定原因，再把后续材料都解释成支持，最终围绕错误前提采取行动。OpenModel 帮助保留原始证据、检验解释并及时行动；不增加模型知识，不承诺提高所有任务的表现。
+"Model" means an explanation of the problem. Preserve the user's goal, authorization, and host instructions. This skill adds no permission to mutate systems, send messages, or run experiments. It does not replace profiling, tracing, tests, static analysis, or architecture tools.
 
-## 默认用法
+## Route by the decision, not keywords
 
-按最低够用强度处理。已有证据足够、各解释导向同一动作，或任务只是明确执行时直接做。遵守当前用户目标、宿主指令优先级与操作权限，不引入额外审批。
+| Level | Trigger | Enough work |
+|---|---|---|
+| 0 — Flow | Ordinary CRUD with established ownership, formatting, a demonstrated local fix, creation/listening, or alternatives leading to the same low-risk action | Execute directly; no hypothesis table. |
+| 1 — Check | One local uncertainty could change an action | Separate observation from explanation; check a relevant counterexample. |
+| 2 — Explore | Plausible competing causes imply different actions | Compare discriminating evidence and complete relevant loop functions. |
+| 3 — Critical | A mistaken decision is costly or hard to reverse | Independently verify material evidence and check failure/recovery and rollback. |
 
-保留三条纪律：
+Consider Level 2 for performance/concurrency incidents, intermittent or cross-module failures, a repeated unsuccessful fix, disagreement with historical explanations, or an untested architectural premise. These are signals, not automatic mandates; known causes and adequate current evidence can stay at Level 0 or 1.
 
-1. **事实不能被解释覆盖。** 区分观察、自述、体验和归因，保留必要出处。
-2. **重要模型必须允许失败。** 能指出什么证据会改变当前判断；不要为凑数制造竞争解释。
-3. **信息不足时，优先选择能产生新信息且可逆的行动。** 信息已足够则直接执行有效方案。
+For new or repurposed domain state, use the proportionate ownership check below. An ordinary field under an existing authority is not automatically an architecture investigation. Explicit invocation still permits Level 0.
 
-六步为 **Observe → Separate → Branch → Attack → Update → Act**，即观察、分层、分叉、攻击、更新、行动。它们是可合并的判断功能，不是每次必须逐项输出的流程，也不规定内部推理方式。保留模型对工具、顺序、方法与表达形式的选择空间。
+## Core loop
 
-## 强度与退出
+**Observe → Separate → Branch → Attack → Update → Act**
 
-| Level | 使用方式 |
-|---|---|
-| 0 — Flow | 简单执行、创作、日常交流或倾听：不启动分析 |
-| 1 — Check | 局部疑点：区分事实与解释，检查关键反例，简短给出下一步 |
-| 2 — Explore | 竞争解释影响行动：按需展开六步，寻找有区分力的证据 |
-| 3 — Critical | 错误代价高、难以回退：增加独立证据核验、风险与回退检查 |
+These are combinable functions, not a required output format or instructions to expose private reasoning.
 
-选择 2–3 或需要精确定义时，读取 [OpenModel Core v0.1](references/core.md)。不要仅因任务复杂就自动增加级别。
+1. **Observe:** Preserve reports and measurements with source, time, scope, and revision when relevant. A reported symptom is not a measured cause. Attribute unverified external claims and make conclusions that depend on them conditional.
+2. **Separate:** Distinguish observed/known facts, experiences, interpretations, hypotheses, and decisions. User and agent explanations are not automatically facts.
+3. **Branch:** Keep only plausible alternatives that could change action, plus material unknowns. No hypothesis quota; do not manufacture doubt about established evidence.
+4. **Attack:** For consequential hypotheses, state feasible observations that would lower confidence or narrow scope. Prefer evidence that predicts different outcomes under competing explanations. Define the update before obtaining the result.
+5. **Update:** Revise the current best model when warranted; preserve superseded explanations and why they failed. Repeated summaries and agreement are not independent evidence. An unrun test is a plan.
+6. **Act:** Obtain the smallest useful discriminator within authorization and budget, or execute the justified solution. Continue the requested work and relevant validation.
 
-**Observer Audit：** 检查会影响判断的采样、转述、测量、注意偏差，以及用户与 AI 是否相互强化未经验证的前提。没有依据时不猜测个人心理。
+Read [core](references/core.md) for deeper definitions. Reuse checks already satisfied by the host workflow.
 
-**Overfit Detector：** 如果相反证据也总被说成支持，或置信度上升而独立证据未增加，暂停扩大结论，补充反证或降低信心。双方一致不自动代表过拟合，也不代表正确。
+## Conditional engineering checks
 
-**Analysis Loop 退出：** 已足以行动、需要现实反馈、继续分析没有新增信息，或达到分析预算时，收束当前判断与未知并进入行动或明确等待条件。停止分析不等于停止执行任务。
+Read only what affects the decision:
 
-## 按需读取
+- [Hypothesis gate](references/hypothesis-gate.md): before an uncertain cause becomes a change. Record the leading explanation, relevant rival, falsifier, evidence, and next action.
+- [Model staleness](references/model-staleness.md): when history conflicts with present behavior. Verify current revision, configuration, deployment, and active path; source alone does not prove deployment.
+- [Model duplication](references/model-duplication.md): when records may encode the same fact. Compare meaning and writers, not names alone.
+- [State ownership](references/state-ownership.md): **No New State Without Ownership Proof.** Classify new/repurposed state as `AUTHORITATIVE_TRUTH`, `DERIVED_PROJECTION`, `OPERATIONAL_STATE`, or `HISTORICAL_EVIDENCE`; identify authority, writers, identity/version, lifecycle, and recovery. Reuse existing contracts. Missing proof withholds the dependent state change while independent work continues; it does not require another approval for an authorized action.
+- [Decision cost](references/decision-cost.md): when investigation grows. Limit checks to those that can change action and account for delay.
 
-- [完整 Core](references/core.md)：六步、守门器、不启动条件与跨领域适配的详细定义。
-- [动态状态](references/state.md)：在多回合更新、长任务或交接时使用；普通回答不填全表。
-- [五个跨领域测试](references/test-cases.md)：评估技能行为时使用，不默认载入任务上下文。
+**Observer Audit:** Check sampling, measurement coverage, source independence, and anchoring when material. Do not invent personal motives.
 
-动态状态沿用固定字段：`Observed / Known / Experienced / Hypotheses / Evidence For / Evidence Against / Unknown / Observer Bias / Current Best Model / Confidence / Reversible Next Test`。
+**Overfit Detector:** If contradictions are repeatedly explained away or confidence grows without new evidence, narrow the claim and seek a real falsifier. Do not oppose a sound model merely to show skepticism.
 
-通常只呈现：当前判断、影响选择的证据或未知、可执行下一步。若现有任务流程已经满足这些要求，直接沿用，不重复分析、建表或验证。
+## Stop and continue
+
+End analysis when evidence is sufficient, alternatives lead to the same low-risk action, a pass adds no evidence/prediction/action change, the budget expires, or useful information requires execution.
+
+Exit with the current best model (possibly unresolved), material unknowns, an authorized action or concrete waiting condition, and evidence that would reopen it. A spent budget neither proves a cause nor authorizes risky implementation. Urgent authorized containment can precede root-cause analysis. Stop analyzing, then continue the task.
+
+Use [working state](references/state.md) for updates/handoff, not a mandatory form. Normally present only the judgment, decisive evidence/unknowns, and action. [Tests](tests/README.md) and [Pilot evidence](references/pilot-evidence.md) are evaluation material, not default task context.
