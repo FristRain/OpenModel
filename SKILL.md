@@ -32,11 +32,15 @@ OpenModel is organized around three different error surfaces:
 
 Consider Level 2 for performance/concurrency incidents, intermittent or cross-module failures, repeated unsuccessful fixes, disagreement with historical explanations, untested architectural premises, ambiguous requirements, or cases where a user description already embeds a causal claim. These are signals, not automatic mandates; known causes and adequate current evidence can stay at Level 0 or 1.
 
+**Level and Layer are orthogonal:** choose one Level for the whole decision; use Layers only to locate where the material uncertainty lives. A Level 1 check may stop in Reality Interface, Model Space, or Decision Space. Do not assign separate Level scores to each Layer.
+
 For new or repurposed domain state, use the proportionate ownership check below. An ordinary field under an existing authority is not automatically an architecture investigation. Explicit invocation still permits Level 0.
 
 ## Layer 0 — Reality Interface
 
 Before deepening an explanation, ask whether the available input is a projection of a higher-dimensional situation.
+
+**In human–AI or multi-agent collaboration, the task description is itself a projection.** Treat another agent's wording as evidence about reality and about that observer's viewpoint, not as reality itself. Ask boundary questions only when a missing dimension could change the action. The agent's response is also a projection and should remain open to correction against reality.
 
 ### Projection check
 
@@ -63,7 +67,12 @@ Before solving a consequential problem, ask:
 - Would another viewpoint, time window, scale, or stakeholder produce a different shape?
 - Are all current hypotheses trapped inside the same frame?
 
-Use **Rotate** as a technique, not a mandatory step: change viewpoint, scale, time, stakeholder, representation, or system boundary when that can reveal a missing dimension.
+Use **Rotate** as a technique, not a peer of Branch or Generate: change viewpoint, scale, time, stakeholder, representation, or system boundary when another projection can reveal a missing dimension.
+
+Quick rule:
+- **Branch = change explanation** inside the current frame when rivals make different predictions.
+- **Generate = change coordinate system/frame** when current candidates share the same limiting frame.
+- **Rotate = change observation angle** to obtain a projection that can support Generate or reframe the problem.
 
 Read [core](references/core.md) for deeper definitions and examples.
 
@@ -74,7 +83,7 @@ Read [core](references/core.md) for deeper definitions and examples.
 These are combinable functions, not a required output format or instructions to expose private reasoning.
 
 1. **Observe:** Preserve reports and measurements with source and projection conditions when material. A reported symptom is not a measured cause.
-2. **Separate:** Distinguish observations, experiences, interpretations, hypotheses, frames, and decisions. User and agent explanations are not automatically facts.
+2. **Separate:** Distinguish observations, experiences, frames, interpretations, hypotheses, and decisions. Example: `no message for three days` (Observation) → `I feel disappointed` (Experience) → `is the relationship becoming distant?` (Frame) → `they may be pulling away` (Interpretation) → `their investment may have decreased` (Hypothesis) → `I will not increase contact yet` (Decision). User and agent explanations are not automatically facts.
 3. **Branch:** Keep only plausible alternatives that could change action, plus material unknowns. No hypothesis quota.
 4. **Generate:** When current hypotheses share the same frame or predictions, consider a different coordinate system, scale, stakeholder, or mechanism rather than manufacturing more variants of the same model.
 5. **Attack:** For consequential models, state feasible observations that would lower confidence, narrow scope, or reveal the frame as wrong. Prefer discriminating evidence.
@@ -94,7 +103,7 @@ Before expanding investigation or acting, identify:
 - **Agency:** what can actually be changed, observed, delayed, or delegated?
 - **Reversibility:** which actions can be rolled back, and which alter the state space or other people/systems?
 - **Intervention effect:** will the test itself change the system being measured?
-- **Value of information:** would more evidence plausibly change the next action?
+- **Value of information:** would more evidence plausibly change the next action? Example: one 2-minute `EXPLAIN` could decide whether an index change is justified → high enough value to run it; a fourth equivalent `EXPLAIN` after three consistent runs is unlikely to change the action → stop.
 - **Cost of delay:** what is lost by waiting?
 - **Authorization:** what actions are already permitted?
 
