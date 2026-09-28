@@ -235,7 +235,9 @@ A user may knowingly choose PATCH even when DESIGN CORRECTION is better structur
 
 That is a valid terminal decision when the requested patch is authorized and acceptable.
 
-Execute it, but make the debt explicit:
+Before treating the choice as informed, surface the material debt and consequence once and obtain explicit acknowledgment. A bare instruction such as “just patch it” is not, by itself, evidence that the user has seen the newly identified tradeoff.
+
+After acknowledgment, execute it, but make the debt explicit:
 
 - what structural problem remains;
 - what the patch does and does not solve;
