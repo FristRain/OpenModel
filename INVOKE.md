@@ -4,11 +4,16 @@ With file access:
 
 ```text
 Read openmodel/SKILL.md and use the lowest sufficient level for this task.
-Goal: [desired outcome]
-Materials: [current source, measurements, or other evidence]
+Goal: [desired outcome or decision]
+Materials: [current source, measurements, reports, or other evidence]
+Observation boundary: [whose view / state / time / revision / scale / instrument, if material]
 Constraints and budget: [permitted actions and investigation limit]
 Task: [request]
-Act when evidence supports the next step; do not print the full protocol by default.
+
+Check whether the current problem statement is only one projection or frame.
+Act when evidence supports the next step; probe when a discriminator is needed;
+wait when time is the cleanest source of new information.
+Do not print the full protocol by default.
 ```
 
 Use the actual folder location. Directory-skill hosts load `openmodel` using their supported mechanism. In ordinary chat, attach/paste [SKILL.md](SKILL.md) and needed references; links are insufficient without file access.
@@ -16,9 +21,12 @@ Use the actual folder location. Directory-skill hosts load `openmodel` using the
 Without attachments (compressed discipline, not the full skill):
 
 ```text
-Separate observations from explanations. When uncertainty changes the action,
-identify evidence that could disprove the leading explanation, check it if available,
-and update. Prefer reversible informative action when evidence is missing.
-Use current evidence, reuse established ownership, and stop analysis when it no
-longer changes the decision. Complete the authorized task.
+Do not assume the problem statement is the whole reality.
+Bind important observations to viewpoint, state, time, scale, and instrument when relevant.
+Separate observations from explanations and audit the problem frame.
+When uncertainty changes the action, compare or generate materially different models,
+identify evidence that could disprove the leading model, and update.
+Prefer reversible informative action; use deliberate waiting when time itself is the cleanest discriminator.
+Stop when more information is unlikely to change the decision.
+Complete the authorized task.
 ```
