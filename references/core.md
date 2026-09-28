@@ -35,6 +35,15 @@ Complexity or domain name alone does not set the level. No hypothesis quotas. Re
 
 If Level 3 evidence is inaccessible, state the gap and feasible work; do not claim verification.
 
+### How Level and Layer combine
+
+**Choose one Level for the whole decision. Use Layers to locate the uncertainty, not to create three independent scores.**
+
+- Level answers: **How much investigation does this decision justify?**
+- Layer answers: **Where is the uncertainty currently located?**
+
+A Level 1 task may need only a Reality Interface check and then act. Another Level 1 task may have a sound observation but one local Model Space uncertainty. A Level 3 task may traverse all three Layers. Do not label a task "Reality L1 / Model L2 / Decision L0"; that precision adds process without improving the decision.
+
 ---
 
 # Layer 0 — Reality Interface
@@ -51,6 +60,23 @@ Examples:
 - A market is projected into selected customers, surveys, funnel metrics, or search results.
 
 The representation can be accurate while still incomplete.
+
+### Collaborative projection
+
+In human–AI and multi-agent work, the task description is not a transparent copy of reality.
+
+A common loop is:
+
+`Reality → observer projection → agent model → agent projection/response → reality check → new projection`
+
+Therefore:
+
+- Treat the user's or another agent's task description as evidence about reality **and** evidence about their observation position.
+- Do not assume the supplied problem frame is correct merely because it is explicit.
+- Ask boundary questions only when a missing dimension could change the action; do not turn every task into requirements interrogation.
+- Treat the agent's own answer as another projection that may lose dimensions and should remain correctable by new evidence.
+
+This symmetry matters: OpenModel is not a method for an AI to "correct the user's projection" from an imagined objective viewpoint. Both sides operate through bounded representations.
 
 ### Observation condition
 
@@ -135,6 +161,14 @@ Rotate the object by changing one useful dimension:
 
 Use rotation when another projection could change the problem or decision.
 
+**Relationship between divergence tools:**
+
+- **Branch = change explanation.** Stay inside the current frame and retain rivals when they make materially different predictions.
+- **Generate = change coordinate system.** Change frame, mechanism class, scale, or stakeholder when current candidates share the same limiting assumptions.
+- **Rotate = change observation angle.** Obtain another projection that can reveal a missing dimension and may trigger Generate.
+
+Rotate is therefore a technique used by Reality Interface / Generate, not a third peer competing with Branch and Generate.
+
 Do not confuse "many perspectives" with an omniscient view. More projections reduce some blind spots; they do not reconstruct reality perfectly.
 
 ---
@@ -159,12 +193,12 @@ Screenshots, OCR, transcripts, summaries, code, metrics, and language descriptio
 
 | Layer | Meaning |
 |---|---|
-| Observation | What was recorded, measured, or reported? |
-| Experience | What did someone explicitly report feeling or experiencing? |
-| Frame | How was the situation defined as a problem? |
-| Interpretation | How was the observation understood? |
-| Hypothesis | What mechanism could explain it? |
-| Decision | What action follows given goals and constraints? |
+| Observation | What was recorded, measured, or reported? Example: "No message was received for three days." |
+| Experience | What internal state did someone explicitly report? Example: "I feel disappointed about that." |
+| Frame | How was the situation defined as a problem? Example: "Is this relationship becoming distant?" |
+| Interpretation | What meaning was assigned to the observation? Example: "They may be intentionally pulling away." |
+| Hypothesis | What mechanism could explain it? Example: "Their investment in the relationship may have decreased." |
+| Decision | What action follows given goals and constraints? Example: "I will not increase contact yet." |
 
 A feeling deserves acknowledgment without proving another person's motives.
 
@@ -351,6 +385,15 @@ Account for:
 - evidence cost,
 - reversibility,
 - and whether another pass can produce discriminating information.
+
+### Micro example
+
+A query is slow and an index is suspected.
+
+- One representative `EXPLAIN` costs about two minutes and could change the decision between adding an index and investigating another bottleneck. **The information is worth obtaining.**
+- Three equivalent `EXPLAIN` runs already agree, and a fourth is unlikely to change the next action. **The expected information value is now below its cost; stop repeating it.**
+
+No numeric score is required. The practical question is whether the next evidence can still change what should happen.
 
 ## Act / Probe / Wait
 
