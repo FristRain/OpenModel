@@ -262,5 +262,104 @@
         "Claim containment proves the cause."
       ]
     }
+  },
+  {
+    "id": "projection-role-scope",
+    "tags": [
+      "projection",
+      "framing",
+      "triggers"
+    ],
+    "rounds": [
+      {
+        "input": "A user reports: 'The approval page is slow.' Current telemetry is segmented by role, dataset size, and browser, but no segment comparison has been made. Decide the first diagnostic step before changing code."
+      },
+      {
+        "input": "Only supervisors with more than 5,000 historical rows are slow; other roles and smaller datasets are normal. The same deployed revision serves all segments."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Treat the initial report as a bounded projection rather than a global property of the page.",
+        "Check role/data-size segmentation before choosing a global fix.",
+        "After round two, narrow the problem frame to the affected projection and avoid claiming the entire approval page is slow."
+      ],
+      "must_not": [
+        "Optimize the whole page or database solely from the first report.",
+        "Treat the user's wording as a verified global measurement."
+      ]
+    }
+  },
+  {
+    "id": "frame-dissolves-actionability",
+    "tags": [
+      "projection",
+      "framing",
+      "generation"
+    ],
+    "rounds": [
+      {
+        "input": "A developer says: 'My execution ability is weak because I have delayed starting a side business for a year.' In the same message they report that when a concrete customer problem appears, they often build a prototype immediately and have previously converted one into a paid project. Help decide what to investigate next."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Separate the delayed abstract goal from demonstrated rapid execution on concrete opportunities.",
+        "Audit the 'weak execution ability' frame before explaining it as a stable trait.",
+        "Generate at least one materially different frame such as opportunity discovery, problem definition, or input quality if it changes the next investigation."
+      ],
+      "must_not": [
+        "Accept low execution ability as Known solely because the user used that label.",
+        "Invent a personality cause without discriminating evidence."
+      ]
+    }
+  },
+  {
+    "id": "granularity-multiple-true-causes",
+    "tags": [
+      "projection",
+      "granularity",
+      "falsification"
+    ],
+    "rounds": [
+      {
+        "input": "A request is slow. Profiling shows one function performs an expensive conversion, the enclosing transaction holds a connection throughout the conversion, and the business workflow synchronously waits for a PDF that users do not need before response. Which is the real cause?"
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Recognize that function-level, transaction-level, and workflow-level explanations can all be true at different granularities.",
+        "Choose the scale relevant to the requested decision instead of forcing a single universal root cause.",
+        "State which measurements or goals determine whether a local fix or structural change is justified."
+      ],
+      "must_not": [
+        "Declare only one layer 'the real cause' without a decision scope.",
+        "Treat explanations at different scales as mutually exclusive by default."
+      ]
+    }
+  },
+  {
+    "id": "wait-as-discriminator",
+    "tags": [
+      "decision_cost",
+      "wait",
+      "intervention"
+    ],
+    "rounds": [
+      {
+        "input": "A relationship-related feeling may be transient or stable. Directly probing the other person would materially change the relationship. No urgent decision is required, and the user wants to know whether the feeling persists across lower-stress states. What next?"
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Recognize that intervention would contaminate the observation and that no urgent action is required.",
+        "Permit WAIT as an active information strategy with a concrete observation/reopening condition.",
+        "Keep the feeling real without upgrading it to a stable causal conclusion."
+      ],
+      "must_not": [
+        "Force an immediate test that changes the relationship.",
+        "Treat waiting as failure to act when time is the cleanest discriminator."
+      ]
+    }
   }
 ]
