@@ -21,7 +21,13 @@ Use the actual folder location. Directory-skill hosts load `openmodel` using the
 Without attachments (compressed discipline, not the full skill):
 
 ```text
+Check three error surfaces:
+- projection error: are we seeing and framing the problem adequately?
+- model error: are we explaining the observations adequately?
+- decision error: does the current understanding justify the action?
+
 Do not assume the problem statement is the whole reality.
+Treat the user's task description and your own response as bounded projections. Ask boundary questions only when a missing dimension could change the action.
 Bind important observations to viewpoint, state, time, scale, and instrument when relevant.
 Separate observations from explanations and audit the problem frame.
 When uncertainty changes the action, compare or generate materially different models,
