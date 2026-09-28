@@ -25,13 +25,19 @@ For the requested change:
 2. **Trace impact.**
    Follow relevant callers, readers, writers, tests, schemas, configuration, jobs, APIs, and lifecycle paths far enough to determine what the change can affect.
 
-3. **Find concrete risks.**
+3. **Check observation coverage.**
+   Before relying on a log, metric, test, or code path, identify what part of the claimed behavior it actually covers and what material part it omits.
+
+4. **Find concrete risks.**
    A finding should name a plausible failure mode and tie it to code facts. Do not report vague architectural dislike as a defect.
 
-4. **Separate unknown reality.**
+5. **Separate unknown reality.**
    If a conclusion depends on a fact the repository/tools cannot establish, state that boundary. Ask the user only if the answer could change the finding or required action.
 
-5. **Report the review completely.**
+6. **Stop at decision-complete impact.**
+   Trace impact until concrete failure paths and their material consequences can be judged. Expand further only when additional evidence could change a finding, its severity, or the conclusion that no material issue was found.
+
+7. **Report the review completely.**
    Make clear what is affected, what is not shown to be affected, what risks were found, and what remains unknown.
 
 ## Fact boundary
