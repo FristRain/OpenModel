@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Draft v0.3 projection-aware core: separate Reality Interface, Model Space, and Decision Space.
+- Add projection conditions, problem-frame audit, granularity, Generate/Rotate techniques, and missing-dimension checks.
+- Treat observer state as an observation condition rather than automatically as bias.
+- Add Goal, Agency, Reversibility, Value of Information, and Act / Probe / Wait to decision handling.
+- Extend working-state handoff and behavioral regressions for projection error, framing error, cross-granularity causes, and deliberate waiting.
+- Clarify Level × Layer routing, Branch/Generate/Rotate roles, collaborative task-description projection, Separate examples, and a concrete value-of-information example from user feedback.
+
 - Define audience by unresolved decision risk, distinguish runtime harnesses from project workflows, and document primary-source support and Pilot limits. Describe selective integration without implying comparative effectiveness across harness setups.
 
 ## [0.2.0] — 2026-09-20
