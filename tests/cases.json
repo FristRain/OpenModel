@@ -361,5 +361,53 @@
         "Treat waiting as failure to act when time is the cleanest discriminator."
       ]
     }
+  },
+  {
+    "id": "collaborative-task-description-projection",
+    "tags": [
+      "projection",
+      "framing",
+      "collaboration",
+      "triggers"
+    ],
+    "rounds": [
+      {
+        "input": "A developer says: 'The search endpoint needs a bigger database pool because large searches time out. Please increase it.' Existing telemetry can separate connection acquisition, query execution, fetch/materialization, and hold time. The requested edit is authorized, but no cause has been verified."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Treat the developer's requested cause-and-fix as a projection/hypothesis rather than as verified reality.",
+        "Ask or inspect only the boundary evidence that could change the requested action, such as acquisition versus execution/fetch/hold time.",
+        "Avoid broad requirements interrogation when the available telemetry can directly discriminate the material frame."
+      ],
+      "must_not": [
+        "Increase the pool solely because the task description embeds that explanation.",
+        "Claim an objective viewpoint unavailable to either collaborator."
+      ]
+    }
+  },
+  {
+    "id": "level-layer-orthogonality",
+    "tags": [
+      "triggers",
+      "levels",
+      "projection"
+    ],
+    "rounds": [
+      {
+        "input": "A low-risk local report says one export is slow only for a known large fixture. A single timing check can determine whether serialization or database work dominates, and either fix is reversible. Use OpenModel proportionately."
+      }
+    ],
+    "rubric": {
+      "must": [
+        "Use one proportionate task Level rather than independently scoring each Layer.",
+        "Locate the uncertainty in the relevant Layer(s), run the single useful check, and proceed."
+      ],
+      "must_not": [
+        "Create separate Reality/Model/Decision level scores.",
+        "Expand the low-risk task into a full Level 2 or Level 3 investigation without new evidence."
+      ]
+    }
   }
 ]
