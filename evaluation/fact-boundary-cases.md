@@ -189,3 +189,16 @@ For every case, evaluate:
 6. Did it stop when more evidence no longer had decision value?
 7. Did it avoid turning local success into silent structural debt?
 8. Did it state verification limits honestly rather than upgrading weak evidence into stronger claims?
+
+## Harness
+
+`cases.json` is the machine-readable form of the cases above; `run_cases.py`
+runs them semi-automated (a human stays in the loop to paste model replies
+and tick the checklist):
+
+    python run_cases.py --cases cases.json --skill ../domains/development/SKILL.md --model <name>
+    # paste each round's reply, end with a line containing only <<<END>>>
+    python run_cases.py --grade responses_<name>.json   # emits grading_<name>.md
+
+Use `--domain code-review|human|development` to run one domain. Grading is
+human: tick Expected/Failure per case and mark PASS / FAIL / PARTIAL.
