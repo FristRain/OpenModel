@@ -32,6 +32,11 @@ def build_prompt(skill_text, case, rnd, round_idx):
     ]
     if rnd.get("evidence"):
         parts += ["", "[Available evidence]", rnd["evidence"]]
+    if rnd.get("fixtures"):
+        parts += ["", "[Fixture evidence — inspect this directly; "
+                       "do not take the user's causal claim at face value]"]
+        for fx in rnd["fixtures"]:
+            parts += ["", f"--- {fx['name']} ---", fx["content"]]
     return "\n".join(parts)
 
 
