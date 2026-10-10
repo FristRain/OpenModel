@@ -182,7 +182,7 @@ def validate(root=ROOT):
                 errors.append("SKILL.md: wrong skill name")
             if not re.search(r"(?m)^description: .+", fields):
                 errors.append("SKILL.md: missing description")
-            if not re.search(r'(?m)^  version: "(?:0\.2\.0|0\.4\.0-draft)"
+            if not re.search(r'(?m)^  version: "(?:0\\.2\\.0|0\\.4\\.0-draft)"$', fields):
                 errors.append("SKILL.md: unexpected release version")
     cases_path = root / "tests/cases.json"
     if cases_path.exists():
