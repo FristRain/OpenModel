@@ -23,4 +23,4 @@ Read [Core](CORE.md) for the six invariants. Apply the smallest sufficient depth
 
 **Stop:** Once further analysis would not change the next step, execute it. If evidence is unavailable, prefer justified reversible work or explicitly state the blocked claim; do not claim tests were run when they were not.
 
-Optional specializations: [Development](domains/development/SKILL.md), [Code review](domains/code-review/SKILL.md), [Human](domains/human/SKILL.md). Optional integrity prototype: [Evidence Core](references/evidence-core.md) only where installed/available. Do not load every reference by default.
+Optional specializations: [Development](domains/development/SKILL.md), [Code review](domains/code-review/SKILL.md), [Human](domains/human/SKILL.md). Optional integrity experiments may be evaluated independently; they are not mandatory runtime dependencies. Do not load every reference by default.
