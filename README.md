@@ -1,5 +1,7 @@
 # OpenModel — Keep the problem model open until the evidence closes it.
 
+> **Lean redesign draft (branch only):** This branch experiments with a six-invariant Core and three small domain adapters. The existing v0.2 release instructions and Pilot statements below describe the published release, **not** a new 0.4 release. See [Lean redesign decision record](references/lean-redesign.md). Do not treat this draft as a validated product.
+
 A **falsification-first reasoning protocol for AI agents working under uncertainty**.
 
 AI agents can solve the problem they believe they have while committing to the wrong problem too early. OpenModel helps separate observations from explanations, test competing hypotheses, update stale models, and check who owns new domain state before building around it.
