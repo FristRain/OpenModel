@@ -182,7 +182,33 @@ def validate(root=ROOT):
                 errors.append("SKILL.md: wrong skill name")
             if not re.search(r"(?m)^description: .+", fields):
                 errors.append("SKILL.md: missing description")
-            if not re.search(r'(?m)^  version: "0\.2\.0"$', fields):
+            if not re.search(r'(?m)^  version: "(?:0\.2\.0|0\.4\.0-draft)"
+                errors.append("SKILL.md: unexpected release version")
+    cases_path = root / "tests/cases.json"
+    if cases_path.exists():
+        try:
+            errors.extend(validate_cases(json.loads(cases_path.read_text(encoding="utf-8"))))
+        except (ValueError, TypeError) as exc:
+            errors.append(f"case data invalid: {type(exc).__name__}")
+    return errors
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--history", action="store_true", help="also scan all reachable Git blobs")
+    args = parser.parse_args()
+    problems = validate()
+    if args.history:
+        problems.extend(history_errors(ROOT))
+    for problem in problems:
+        print(problem)
+    if problems:
+        raise SystemExit(1)
+    print("PASS: package, local links, case schema/coverage, and heuristic privacy checks.")
+    if args.history:
+        print("PASS: reachable Git history heuristic scan.")
+    print("Not an agent benchmark or a guarantee of no sensitive information.")
+, fields):
                 errors.append("SKILL.md: unexpected release version")
     cases_path = root / "tests/cases.json"
     if cases_path.exists():
